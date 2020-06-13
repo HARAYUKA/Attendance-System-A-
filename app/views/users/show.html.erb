@@ -1,4 +1,5 @@
 <% provide(:title, @user.name) %>
+<!--ユーザー情報テーブル-->
 <div>
   <table class="table table-bordered table-condensed user-table">
     <tr>
@@ -23,8 +24,18 @@
   </table>
 </div>
 
+<!--申請お知らせテーブル-->
+<div>
+  【所属長承認申請のお知らせ】<br>
+  【勤怠変更申請のお知らせ】<br>
+  【残業申請のお知らせ】<br>
+</div>
+<p></p>
+
 <div class="btn-users-show">
-  <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-success" %>
+  <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-primary" %>
+  <%= link_to "CSVを出力", '#', class: "btn btn-primary" %>
+  <%= link_to "勤怠修正ログ（承認済）", '#', class: "btn btn-primary" %>
 </div>
 
 <div>
