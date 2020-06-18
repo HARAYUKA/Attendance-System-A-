@@ -54,11 +54,24 @@ class AttendancesController < ApplicationController
   
   def update_overwork_request
     @user = User.find(params[:user_id])
+    @attendance = @user.attendances.find(params[:id])
+    if params[:attendance][:scheduled_end_time].blank? || params[:attendance][:work_details].blank? || params[:attendance][:overwork_instructor_confirmation].blank?
+      flash[:danger] = "未入力の項目があります。"
+    else
+      @attendance.update_attributes(overwork_params)
+      flash[:success] = "残業を申請しました。"
+    end
+    redirect_to @user
   end
   
   private
     # 1ヶ月分の勤怠情報を扱います。
     def attendances_params
       params.require(:user).permit(attendances: [:started_at, :finished_at, :note])[:attendances]
+    end
+    
+    # 残業申請の更新情報
+    def overwork_params
+      params.require(:attendance).permit(:scheduled_end_time, :next_day, :work_details, :overwork_instructor_confirmation)
     end
 end

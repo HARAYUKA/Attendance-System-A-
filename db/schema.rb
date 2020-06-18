@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(version: 20200617071758) do
     t.datetime "scheduled_end_time"
     t.boolean "next_day"
     t.string "work_details"
+    t.string "overwork_request_status"
+    t.string "overwork_instructor_confirmation"
     t.index ["user_id"], name: "index_attendances_on_user_id"
   end
 
@@ -35,8 +37,8 @@ ActiveRecord::Schema.define(version: 20200617071758) do
     t.string "remember_digest"
     t.boolean "admin", default: false
     t.string "department"
-    t.datetime "basic_time", default: "2020-06-12 23:00:00"
-    t.datetime "work_time", default: "2020-06-12 22:30:00"
+    t.datetime "basic_time", default: "2020-06-16 23:00:00"
+    t.datetime "work_time", default: "2020-06-16 22:30:00"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
