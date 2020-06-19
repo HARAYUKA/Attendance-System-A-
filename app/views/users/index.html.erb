@@ -21,8 +21,8 @@
         <th><%= User.human_attribute_name :name %></th>
         <th class="center"><%= User.human_attribute_name :department %></th>
         <% if current_user.admin? %>
-          <th class="center"><%= User.human_attribute_name :basic_time %></th>
-          <th class="center"><%= User.human_attribute_name :work_time %></th>
+          <th class="center"><%= User.human_attribute_name :basic_work_time %></th>
+          <th class="center"><%= User.human_attribute_name :work_start_time %></th>
         <% end %>
         <th></th>
       </tr>
@@ -39,8 +39,8 @@
         </td>
         <td class="center"><%= user.department.present? ? user.department : "未所属" %></td>
         <% if current_user.admin? %>
-          <td class="center"><%= format_basic_info(user.basic_time) %></td>
-          <td class="center"><%= format_basic_info(user.work_time) %></td>
+          <td class="center"><%= format_basic_info(user.basic_work_time) %></td>
+          <td class="center"><%= format_basic_info(user.work_start_time) %></td>
         <% end %>
         <td class="center">
           <% if current_user.admin? && !current_user?(user) %>
