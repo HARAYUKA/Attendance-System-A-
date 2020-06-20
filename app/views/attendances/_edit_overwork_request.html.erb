@@ -21,7 +21,7 @@
           <tbody>
               <td><%= l(@attendance.worked_on, format: :short) %></td>
               <td><%= $days_of_the_week[@attendance.worked_on.wday] %></td>
-              <td><%= f.time_field :scheduled_end_time, class: "form_control" %></td>
+              <td><%= f.time_select :scheduled_end_time, :include => true, minute_step: 15, class: "form_control" %></td>
               <td><%= f.check_box :next_day, id: "next_day" %></td>
               <td><%= f.text_field :work_details, class: "form_control" %></td>
               <td><%= f.select :overwork_instructor_confirmation, [['上長A'],['上長B']], {}, { class: "instructor_class" } %></td>

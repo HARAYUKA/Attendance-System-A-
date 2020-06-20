@@ -29,7 +29,7 @@
 <div>
   【所属長承認申請のお知らせ】<br>
   【勤怠変更申請のお知らせ】<br>
-  【残業申請のお知らせ】<br>
+  <%= link_to "【残業申請のお知らせ】", "#", remote: true, class: "btn" %><br>
 </div>
 <p></p>
 
@@ -110,7 +110,7 @@
           <td><%= day.note %></td>
           <td><%= format_hour(day.scheduled_end_time) if day.scheduled_end_time.present? %></td>
           <td><%= format_min(day.scheduled_end_time) if day.scheduled_end_time.present? %></td>
-          <td></td>
+          <td><%= overtime_info(day.scheduled_end_time, @user.work_end_time, day.next_day) if day.scheduled_end_time.present? %></td>
           <td><%= day.work_details %></td>
           <td></td>
         </tr>

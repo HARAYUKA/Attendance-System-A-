@@ -18,6 +18,8 @@ Rails.application.routes.draw do
       member do
         get 'edit_overwork_request'
         patch 'update_overwork_request'
+        get 'edit_notice_overwork_request'
+        patch 'update_notice_overwork_request'
       end
     end
   end
