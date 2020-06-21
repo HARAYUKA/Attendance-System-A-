@@ -29,7 +29,7 @@
 <div>
   【所属長承認申請のお知らせ】<br>
   【勤怠変更申請のお知らせ】<br>
-  <%= link_to "【残業申請のお知らせ】", "#", remote: true, class: "btn" %><br>
+  <%= link_to "【残業申請のお知らせ】", edit_notice_overwork_user_attendances_path(@user), remote: true, class: "btn" %><br>
 </div>
 <p></p>
 
@@ -148,3 +148,4 @@
 
 <!--モーダルウインドウ-->
 <div id="edit-overwork-request" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="edit-notice-overwork" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
