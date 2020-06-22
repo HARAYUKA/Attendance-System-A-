@@ -66,6 +66,7 @@ class AttendancesController < ApplicationController
  
   def edit_notice_overwork
     @user = User.find(params[:user_id])
+    @notice_users = User.where(id: Attendance.where.not(scheduled_end_time: nil).select(:user_id))
   end
   
   def update_notice_overwork
