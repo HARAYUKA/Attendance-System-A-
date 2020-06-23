@@ -5,5 +5,6 @@ class AddOverworkRequestToAttendances < ActiveRecord::Migration[5.1]
     add_column :attendances, :work_details, :string
     add_column :attendances, :overwork_request_status, :string
     add_column :attendances, :overwork_instructor_confirmation, :string
+    add_column :attendances, :change, :boolean
   end
 end
