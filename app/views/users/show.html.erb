@@ -112,7 +112,7 @@
           <td><%= format_min(day.scheduled_end_time) if day.scheduled_end_time.present? %></td>
           <td><%= overtime_info(day.scheduled_end_time, @user.work_end_time, day.next_day) if day.scheduled_end_time.present? %></td>
           <td><%= day.work_details %></td>
-          <td></td>
+          <td><%= day.overwork_request_status %></td>
         </tr>
       <% end %>
     </tbody>

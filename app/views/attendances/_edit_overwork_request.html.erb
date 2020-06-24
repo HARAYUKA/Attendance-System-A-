@@ -24,7 +24,7 @@
               <td><%= f.time_select :scheduled_end_time, minute_step: 15, class: "form_control" %></td>
               <td><%= f.check_box :next_day, id: "next_day" %></td>
               <td><%= f.text_field :work_details, class: "form_control" %></td>
-              <td><%= f.select :overwork_instructor_confirmation, [['上長A'],['上長B']], {}, { class: "instructor_class" } %></td>
+              <td><%= f.collection_select :overwork_instructor_confirmation, @instructors, :name, :name, {include_blank: true}, { class: "instructor_class" } %></td>
           </tbody>
         </table>
       

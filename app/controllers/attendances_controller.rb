@@ -47,29 +47,36 @@ class AttendancesController < ApplicationController
     redirect_to attendances_edit_one_month_user_url(date: params[:date])
   end
   
+  # 残業申請モーダル
   def edit_overwork_request
     @user = User.find(params[:user_id])
     @attendance = @user.attendances.find(params[:id])
+    @instructors = User.where(instructor: true).where.not(id: @user.id)
   end
   
+  # 残業申請モーダル更新
   def update_overwork_request
     @user = User.find(params[:user_id])
     @attendance = @user.attendances.find(params[:id])
     if params[:attendance][:work_details].blank? || params[:attendance][:overwork_instructor_confirmation].blank?
       flash[:danger] = "未入力の項目があります。"
     else
+      @attendance.overwork_request_status = "申請中"
       @attendance.update_attributes(overwork_params)
       flash[:success] = "残業を申請しました。"
     end
     redirect_to @user
   end
- 
+
+  # 残業申請お知らせモーダル
   def edit_notice_overwork
     @user = User.find(params[:user_id])
-    @notice_users = User.where(id: Attendance.where.not(scheduled_end_time: nil).select(:user_id))
-    @attendance_notices = Attendance.where(user_id: @user.id).where.not(scheduled_end_time: nil)
+    # @notice_users = User.where(id: Attendance.where.not(scheduled_end_time: nil).select(:user_id))
+    # @notice_users = Attendance.where(overwork_instructor_confirmation: @user.id, overwork_request_status: "申請中").order(user_id: "ASC", worked_on: "ASC").group_by(&:user_id)
+    @notice_users = Attendance.where(overwork_request_status: "申請中").order(user_id: "ASC", worked_on: "ASC").group_by(&:user_id)
   end
   
+  # 残業申請お知らせモーダル更新
   def update_notice_overwork
     @user = User.find(params[:user_id])
   end
