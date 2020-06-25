@@ -71,14 +71,15 @@ class AttendancesController < ApplicationController
   # 残業申請お知らせモーダル
   def edit_notice_overwork
     @user = User.find(params[:user_id])
-    # @notice_users = User.where(id: Attendance.where.not(scheduled_end_time: nil).select(:user_id))
-    # @notice_users = Attendance.where(overwork_instructor_confirmation: @user.id, overwork_request_status: "申請中").order(user_id: "ASC", worked_on: "ASC").group_by(&:user_id)
     @notice_users = Attendance.where(overwork_request_status: "申請中").order(user_id: "ASC", worked_on: "ASC").group_by(&:user_id)
   end
   
   # 残業申請お知らせモーダル更新
   def update_notice_overwork
     @user = User.find(params[:user_id])
+    # @notice_users.update_attributes(overwork_notice_params)
+    # flash[:success] = "変更を送信しました"
+    # redirect_to @user
   end
 
   
@@ -92,4 +93,9 @@ class AttendancesController < ApplicationController
     def overwork_params
       params.require(:attendance).permit(:scheduled_end_time, :next_day, :work_details, :overwork_instructor_confirmation)
     end
+    
+    # # 残業申請お知らせの更新情報
+    # def overwork_notice_params
+    #   params.require(:attendance).permit(attendances: [:overwork_request_status])[:attendances]
+    # end
 end

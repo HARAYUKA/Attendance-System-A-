@@ -20,6 +20,7 @@ class UsersController < ApplicationController
   def show
     @worked_sum = @attendances.where.not(started_at: nil).count
     @instructors = User.where(instructor: true).where.not(id: @user.id)
+    @attendance_notices = Attendance.where(overwork_request_status: "申請中", overwork_instructor_confirmation: @user.name).count
   end
   
   def new

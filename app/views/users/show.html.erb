@@ -29,7 +29,12 @@
 <div>
   【所属長承認申請のお知らせ】<br>
   【勤怠変更申請のお知らせ】<br>
-  <%= link_to "【残業申請のお知らせ】", edit_notice_overwork_user_attendances_path(@user), remote: true, class: "btn" %><br>
+  <% if @attendance_notices != 0 %>
+    <%= link_to "【残業申請のお知らせ】", edit_notice_overwork_user_attendances_path(@user), remote: true, class: "btn" %>
+    <b><%= @attendance_notices %>件の申請があります</b>
+  <% else %>
+    【残業申請のお知らせ】
+  <% end %>
 </div>
 <p></p>
 
