@@ -71,15 +71,24 @@ class AttendancesController < ApplicationController
   # 残業申請お知らせモーダル
   def edit_notice_overwork
     @user = User.find(params[:user_id])
-    @notice_users = Attendance.where(overwork_request_status: "申請中").order(user_id: "ASC", worked_on: "ASC").group_by(&:user_id)
+    @attendances = Attendance.where(overwork_request_status: "申請中").order(user_id: "ASC", worked_on: "ASC").group_by(&:user_id)
   end
   
   # 残業申請お知らせモーダル更新
   def update_notice_overwork
     @user = User.find(params[:user_id])
-    # @notice_users.update_attributes(overwork_notice_params)
-    # flash[:success] = "変更を送信しました"
-    # redirect_to @user
+    ActiveRecord::Base.transaction do # トランザクションを開始します。
+      overwork_notice_params.each do |id, item|
+        if item[:change] == "1"
+          attendance = Attendance.find(id)
+          attendance.update_attributes!(item)
+        end
+      end
+    end
+    flash[:success] = "変更を送信しました。"
+    redirect_to @user
+  rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
+    flash[:danger] = "無効な入力データがあった為、変更をキャンセルしました。"
   end
 
   
@@ -94,8 +103,8 @@ class AttendancesController < ApplicationController
       params.require(:attendance).permit(:scheduled_end_time, :next_day, :work_details, :overwork_instructor_confirmation)
     end
     
-    # # 残業申請お知らせの更新情報
-    # def overwork_notice_params
-    #   params.require(:attendance).permit(attendances: [:overwork_request_status])[:attendances]
-    # end
+    # 残業申請お知らせの更新情報
+    def overwork_notice_params
+      params.require(:user).permit(attendances: [:overwork_request_status, :change])[:attendances]
+    end
 end
