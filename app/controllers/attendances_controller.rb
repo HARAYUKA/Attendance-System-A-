@@ -77,17 +77,21 @@ class AttendancesController < ApplicationController
   # 残業申請お知らせモーダル更新
   def update_notice_overwork
     @user = User.find(params[:user_id])
-    ActiveRecord::Base.transaction do # トランザクションを開始します。
+    ActiveRecord::Base.transaction do
       overwork_notice_params.each do |id, item|
-        if item[:change] == "1"
+        # if item[:overwork_request_status] == "申請中" || item[:change] == "0"
+        #   flash[:danger] = "無効な入力データがあった為、変更をキャンセルしました。"
+        #   redirect_to @user and return
+        # end
+        if item[:change] == "1" && item[:overwork_request_status].in?(["承認", "否認"])
           attendance = Attendance.find(id)
           attendance.update_attributes!(item)
         end
       end
     end
     flash[:success] = "変更を送信しました。"
-    redirect_to @user
-  rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
+    redirect_to @user and return
+  rescue ActiveRecord::RecordInvalid
     flash[:danger] = "無効な入力データがあった為、変更をキャンセルしました。"
   end
 
