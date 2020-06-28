@@ -18,14 +18,18 @@ ActiveRecord::Schema.define(version: 20200624125504) do
     t.datetime "finished_at"
     t.string "note"
     t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.datetime "scheduled_end_time"
     t.boolean "next_day"
     t.string "work_details"
     t.string "overwork_request_status"
     t.string "overwork_instructor_confirmation"
     t.boolean "change"
+    t.datetime "edit_started_at"
+    t.datetime "edit_finished_at"
+    t.string "edit_status"
+    t.string "edit_instructor_confirmation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_attendances_on_user_id"
   end
 
@@ -38,9 +42,9 @@ ActiveRecord::Schema.define(version: 20200624125504) do
     t.string "remember_digest"
     t.boolean "admin", default: false
     t.string "department"
-    t.datetime "basic_work_time", default: "2020-06-23 23:00:00"
-    t.datetime "work_start_time", default: "2020-06-24 00:00:00"
-    t.datetime "work_end_time", default: "2020-06-24 09:00:00"
+    t.datetime "basic_work_time", default: "2020-06-28 23:00:00"
+    t.datetime "work_start_time", default: "2020-06-29 00:00:00"
+    t.datetime "work_end_time", default: "2020-06-29 09:00:00"
     t.boolean "instructor", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
