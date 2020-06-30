@@ -28,10 +28,15 @@
 <!--申請お知らせテーブル-->
 <div>
   【所属長承認申請のお知らせ】<br>
-  【勤怠変更申請のお知らせ】<br>
   <% if @attendance_notices != 0 %>
-    <%= link_to "【残業申請のお知らせ】", edit_notice_overwork_user_attendances_path(@user), remote: true, class: "btn" %>
+    <%= link_to "【勤怠変更申請のお知らせ】", change_att_request_user_attendances_path(@user), remote: true, class: "btn" %>
     <b><%= @attendance_notices %>件の申請があります</b>
+  <% else %>
+    【勤怠変更申請のお知らせ】
+  <% end %><br>
+  <% if @overwork_notices != 0 %>
+    <%= link_to "【残業申請のお知らせ】", edit_notice_overwork_user_attendances_path(@user), remote: true, class: "btn" %>
+    <b><%= @overwork_notices %>件の申請があります</b>
   <% else %>
     【残業申請のお知らせ】
   <% end %>
@@ -162,3 +167,4 @@
 <!--モーダルウインドウ-->
 <div id="edit-overwork-request" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <div id="edit-notice-overwork" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="change-att-request" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
