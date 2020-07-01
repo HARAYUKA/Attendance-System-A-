@@ -30,11 +30,11 @@
                 <% end %>
               </td>
               <% if Date.current < day.worked_on %>
-                <td><%= attendance.time_field :started_at, readonly: true, class: "form-control" %></td>
-                <td><%= attendance.time_field :finished_at, readonly: true, class: "form-control" %></td>
+                <td><%= attendance.time_field :edit_started_at, readonly: true, class: "form-control" %></td>
+                <td><%= attendance.time_field :edit_finished_at, readonly: true, class: "form-control" %></td>
               <% else %>
-                <td><%= attendance.time_field :started_at, class: "form-control" %></td>
-                <td><%= attendance.time_field :finished_at, class: "form-control" %></td>
+                <td><%= attendance.time_field :edit_started_at, class: "form-control" %></td>
+                <td><%= attendance.time_field :edit_finished_at, class: "form-control" %></td>
               <% end %>
               <td><%= attendance.check_box :next_day, id: "next_day" %></td>
               <td>
@@ -43,7 +43,7 @@
                 <% end %>
               </td>
               <td><%= attendance.text_field :note, class: "form-control" %></td>
-              <td></td>
+              <td><%= attendance.collection_select :edit_instructor_confirmation, @instructors, :name, :name, {include_blank: true}, { class: "instructor_class" } %></td>
             </tr>
           <% end %>
         <% end %>

@@ -9,7 +9,7 @@
       <%= form_with(model: @user, url: update_notice_overwork_user_attendances_path(@user), local: true, method: :patch) do |f| %>
         <% @attendances.each do |id, attendances| %>
          <% user = User.find(id) %>
-          <h1 class="modal-title">【<%= user.name %>からの勤怠変更申請】</h1>
+          <h1 class="modal-title">【<%= user.name %>からの残業申請】</h1>
           <table class="table table-bordered table-striped table-overwork">
             <thead>
               <tr>

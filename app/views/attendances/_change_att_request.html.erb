@@ -1,2 +1,74 @@
-$(“#change-att-request”).html("<%= escape_javascript(render ‘change_att_request’) %>");
-$(“#change-att_request“).modal("show");
+<div class="modal-dialog modal-lg modal-dialog-center">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <%= form_with(model: @user, url: update_att_request_user_attendances_path(@user), local: true, method: :patch) do |f| %>
+        <% @attendances.each do |id, attendances| %>
+         <% user = User.find(id) %>
+          <h1 class="modal-title">【<%= user.name %>からの勤怠変更申請】</h1>
+          <table class="table table-bordered table-striped table-overwork">
+            <thead>
+              <tr>
+                <th rowspan="3">日付</th>
+                <th rowspan="3">曜日</th>
+                <th colspan="4">変更前</th>
+                <th colspan="4">変更後</th>
+                <th rowspan="3">備考</th>
+                <th rowspan="3">指示者確認㊞</th>
+                <th rowspan="3">変更</th>
+                <th rowspan="3">勤怠を確認する</th>
+              </tr>
+              <tr>
+                <th colspan="2">出社</th>
+                <th colspan="2">退社</th>
+                <th colspan="2">出社</th>
+                <th colspan="2">退社</th>
+              </tr>
+              <tr>
+                <th>時</th>
+                <th>分</th>
+                <th>時</th>
+                <th>分</th>
+                <th>時</th>
+                <th>分</th>
+                <th>時</th>
+                <th>分</th>
+              </tr>
+            </thead>
+            
+            <% attendances.each do |notice| %>
+              <%= f.fields_for "attendances[]", notice do |att| %>
+                <tbody>
+                  <tr>
+                    <td><%= l(notice.worked_on, format: :short) %></td>
+                    <td><%= $days_of_the_week[notice.worked_on.wday] %></td>
+                    <td><%= l(notice.scheduled_end_time, format: :time) %></td>
+                    <td><%= format_basic_info(user.work_end_time) %></td>
+                    <td>
+                      <% if notice.scheduled_end_time.present? %>
+                        <%= overtime_info(notice.scheduled_end_time, user.work_end_time, notice.next_day) %>
+                      <% end %>
+                    </td>
+                    <td><%= notice.try(:work_details) %></td>
+                    <td>
+                      <%= att.select :overwork_request_status, ['なし', '申請中', '承認', '否認'], {include_blank: true}, class: "form_control" %>
+                    </td>
+                    <td><%= att.check_box :change, class: "change" %></td>
+                    <td><%= link_to "確認", "#", class: "btn btn-primary btn-md" %></td>
+                  </tr>
+                </tbody>
+              <% end %>
+            <% end %>
+          </table>
+        <% end %>
+        <div class="center">
+          <%= f.submit "変更を送信する", class: "btn btn-primary btn-block" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

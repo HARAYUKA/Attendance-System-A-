@@ -27,24 +27,42 @@ class AttendancesController < ApplicationController
   end
   
   def edit_one_month
+    @instructors = User.where(instructor: true).where.not(id: @user.id)
   end
   
   def update_one_month
     ActiveRecord::Base.transaction do # トランザクションを開始します。
       attendances_params.each do |id, item|
-        if item[:finished_at].blank? && item[:started_at].present?
-          flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
-          redirect_to user_url(date: params[:date]) and return
+        if item[:edit_instructor_confirmation].present?
+          if item[:edit_started_at].blank? || item[:edit_finished_at].blank? || item[:note].blank?
+            flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
+            redirect_to user_url(date: params[:date]) and return
+          else
+            item[:edit_status] = "申請中"
+            attendance = Attendance.find(id)
+            item[:edit_started_at] = attendance.worked_on.to_s + " " + item[:edit_started_at] + ":00"
+            item[:edit_finished_at] = attendance.worked_on.to_s + " " + item[:edit_finished_at] + ":00"
+            attendance.update_attributes!(item)
+          end
         end
-        attendance = Attendance.find(id)
-        attendance.update_attributes!(item)
       end
     end
-    flash[:success] = "１ヶ月分の勤怠情報を更新しました。"
+    flash[:success] = "勤怠変更申請を送信しました。"
     redirect_to user_url(date: params[:date]) and return 
   rescue ActiveRecord::RecordInvalid
     flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
     redirect_to attendances_edit_one_month_user_url(date: params[:date])
+  end
+  
+  # 勤怠変更申請モーダル
+  def change_att_request
+    @user = User.find(params[:user_id])
+  end
+  
+  # 勤怠変更申請モーダル更新
+  def update_att_request
+    @user = User.find(params[:user_id])
+    @attendance = @user.attendances.find(params[:id])
   end
   
   # 残業申請モーダル
@@ -96,7 +114,7 @@ class AttendancesController < ApplicationController
   private
     # 1ヶ月分の勤怠情報を扱います。
     def attendances_params
-      params.require(:user).permit(attendances: [:started_at, :finished_at, :note])[:attendances]
+      params.require(:user).permit(attendances: [:edit_started_at, :edit_finished_at, :note, :edit_instructor_confirmation])[:attendances]
     end
     
     # 残業申請の更新情報
