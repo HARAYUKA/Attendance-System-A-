@@ -10,7 +10,7 @@
         <% @attendances.each do |id, attendances| %>
          <% user = User.find(id) %>
           <h1 class="modal-title">【<%= user.name %>からの残業申請】</h1>
-          <table class="table table-bordered table-striped table-overwork">
+          <table class="table table-bordered table-striped table-request">
             <thead>
               <tr>
                 <th>日付</th>

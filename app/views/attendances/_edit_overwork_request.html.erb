@@ -8,7 +8,7 @@
     </div>
     <div class="modal-body">
       <%= form_with(model: @attendance, url: update_overwork_request_user_attendance_path(@user, @attendance), local: true, method: :patch) do |f| %>
-        <table class="table table-bordered table-condensed table-striped">
+        <table class="table table-bordered table-condensed table-striped table-request">
           <thead>
             <th>日付</th>
             <th>曜日</th>

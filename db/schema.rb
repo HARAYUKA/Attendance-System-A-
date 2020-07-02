@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(version: 20200624125504) do
     t.boolean "change"
     t.datetime "edit_started_at"
     t.datetime "edit_finished_at"
+    t.datetime "before_started_at"
+    t.datetime "before_finished_at"
     t.string "edit_status"
     t.string "edit_instructor_confirmation"
     t.datetime "created_at", null: false
@@ -42,9 +44,9 @@ ActiveRecord::Schema.define(version: 20200624125504) do
     t.string "remember_digest"
     t.boolean "admin", default: false
     t.string "department"
-    t.datetime "basic_work_time", default: "2020-06-28 23:00:00"
-    t.datetime "work_start_time", default: "2020-06-29 00:00:00"
-    t.datetime "work_end_time", default: "2020-06-29 09:00:00"
+    t.datetime "basic_work_time", default: "2020-07-01 23:00:00"
+    t.datetime "work_start_time", default: "2020-07-02 00:00:00"
+    t.datetime "work_end_time", default: "2020-07-02 09:00:00"
     t.boolean "instructor", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end

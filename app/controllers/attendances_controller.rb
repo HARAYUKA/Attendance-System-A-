@@ -26,10 +26,12 @@ class AttendancesController < ApplicationController
     redirect_to @user
   end
   
+  # 1ヶ月の勤怠編集
   def edit_one_month
     @instructors = User.where(instructor: true).where.not(id: @user.id)
   end
   
+  # 1ヶ月の勤怠更新
   def update_one_month
     ActiveRecord::Base.transaction do # トランザクションを開始します。
       attendances_params.each do |id, item|
@@ -57,12 +59,25 @@ class AttendancesController < ApplicationController
   # 勤怠変更申請モーダル
   def change_att_request
     @user = User.find(params[:user_id])
+    @attendances = Attendance.where(edit_status: "申請中", edit_instructor_confirmation: @user.name).order(user_id: "ASC", worked_on: "ASC").group_by(&:user_id)
   end
   
   # 勤怠変更申請モーダル更新
   def update_att_request
     @user = User.find(params[:user_id])
-    @attendance = @user.attendances.find(params[:id])
+    ActiveRecord::Base.transaction do
+      change_att_params.each do |id, item|
+        if item[:change] == "1" && item[:edit_status] = "承認"
+          attendance = Attendance.find(id)
+          attendance.update_attributes!(item)
+          flash[:success] = "変更を送信しました。"
+        end
+      end
+    end
+    redirect_to @user and return
+  rescue ActiveRecord::RecordInvalid
+    flash[:danger] = "無効な入力データがあった為、変更をキャンセルしました。"
+    redirect_to @user and return
   end
   
   # 残業申請モーダル
@@ -125,5 +140,10 @@ class AttendancesController < ApplicationController
     # 残業申請お知らせの更新情報
     def overwork_notice_params
       params.require(:user).permit(attendances: [:overwork_request_status, :change])[:attendances]
+    end
+    
+    # 勤怠変更申請の更新情報
+    def change_att_params
+      params.require(:user).permit(attendances: [:edit_status, :change])[:attendances]
     end
 end
