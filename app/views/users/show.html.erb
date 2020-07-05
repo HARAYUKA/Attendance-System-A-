@@ -122,9 +122,10 @@
           <td><%= format_min(day.scheduled_end_time) if day.scheduled_end_time.present? %></td>
           <td><%= overtime_info(day.scheduled_end_time, @user.work_end_time, day.next_day) if day.scheduled_end_time.present? %></td>
           <td><%= day.work_details %></td>
-          <% if day.overwork_request_status == "申請中" %>
-            <td><%= day.overwork_instructor_confirmation %>へ<%= day.overwork_request_status %></td>
-          <% elsif day.overwork_request_status == "承認" %>
+          <% if day.overwork_request_status == "申請中" || day.edit_status == "申請中" %>
+            <td><%= day.overwork_instructor_confirmation %>へ<%= day.overwork_request_status %>
+                <%= day.overwork_instructor_confirmation %>へ<%= day.edit_status %></td>
+          <% elsif day.overwork_request_status == "承認" || day.edit_status == "申請中" %>
             <td>残業承認済</td>
           <% elsif day.overwork_request_status == "否認"%>
             <td>残業否認</td>

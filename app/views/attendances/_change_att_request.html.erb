@@ -54,7 +54,7 @@
                     <td><%= format_min(notice.edit_started_at) if notice.edit_started_at.present? %></td>
                     <td><%= format_hour(notice.edit_finished_at) if notice.edit_finished_at.present? %></td>
                     <td><%= format_min(notice.edit_finished_at) if notice.edit_finished_at.present? %></td>
-                    <td><%= notice.try(:note) %></td>
+                    <td><%= att.try(:note) %></td>
                     <td>
                       <%= att.select :edit_status, ['なし', '申請中', '承認', '否認'], {include_blank: true}, class: "form_control" %>
                     </td>

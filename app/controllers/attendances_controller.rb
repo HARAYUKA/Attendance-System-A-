@@ -67,10 +67,24 @@ class AttendancesController < ApplicationController
     @user = User.find(params[:user_id])
     ActiveRecord::Base.transaction do
       change_att_params.each do |id, item|
-        if item[:change] == "1" && item[:edit_status] = "承認"
+        if item[:change] == "1"
           attendance = Attendance.find(id)
-          attendance.update_attributes!(item)
-          flash[:success] = "変更を送信しました。"
+          if item[:edit_status] == "承認"
+            if attendance.before_started_at.blank?
+              attendance.before_started_at = attendance.started_at
+            end
+            if attendance.before_finished_at.blank?
+              attendance.before_finished_at = attendance.finished_at
+            end
+            attendance.started_at = attendance.edit_started_at
+            attendance.finished_at = attendance.edit_finished_at
+            item[:change] = "0"
+            attendance.update_attributes!(item)
+            flash[:success] = "変更を送信しました。"
+          elsif item[:edit_status] == "否認"
+            item[:change] = "0"
+            attendance.update_attributes!(item)
+          end
         end
       end
     end
@@ -112,10 +126,13 @@ class AttendancesController < ApplicationController
     @user = User.find(params[:user_id])
     ActiveRecord::Base.transaction do
       overwork_notice_params.each do |id, item|
-        if item[:change] == "1" && item[:overwork_request_status].in?(["承認", "否認"])
+        if item[:change] == "1"
           attendance = Attendance.find(id)
-          attendance.update_attributes!(item)
-          flash[:success] = "変更を送信しました。"
+          if item[:overwork_request_status].in?(["承認", "否認"])
+            item[:change] = "0"
+            attendance.update_attributes!(item)
+            flash[:success] = "変更を送信しました。"
+          end
         end
       end
     end
