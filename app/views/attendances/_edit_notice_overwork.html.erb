@@ -43,7 +43,7 @@
                       <%= att.select :overwork_request_status, ['なし', '申請中', '承認', '否認'], {include_blank: true}, class: "form_control" %>
                     </td>
                     <td><%= att.check_box :change, class: "change" %></td>
-                    <td><%= link_to "確認", "#", class: "btn btn-primary btn-md" %></td>
+                    <td><%= link_to "確認", confirm_one_month_user_path(@user, attendance_id: notice.id), class: "btn btn-primary btn-md" %></td>
                   </tr>
                 </tbody>
               <% end %>
