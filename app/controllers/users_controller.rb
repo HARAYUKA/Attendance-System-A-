@@ -69,6 +69,16 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
   
+  # 勤怠確認ボタン
+  def confirm_one_month
+    attendance = Attendance.find(params[:attendance_id])
+    @user = User.find(attendance.user_id)
+    @first_day = attendance.worked_on.to_date.beginning_of_month
+    @last_day = @first_day.end_of_month
+    @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
+    @worked_sum = @attendances.where.not(started_at: nil).count
+  end
+  
   private
   
     def user_params

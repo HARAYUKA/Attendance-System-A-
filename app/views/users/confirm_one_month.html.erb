@@ -4,9 +4,7 @@
   <table class="table table-bordered table-striped table-condensed user-table">
     <tr>
       <td>
-        <%= link_to "⬅︎ ", user_path(date: @first_day.prev_month), class: "btn btn-info-small" %>
         <%= l(@first_day, format: :middle) %> 時間管理票
-        <%= link_to " ➡︎︎", user_path(date: @first_day.next_month), class: "btn btn-info-small" %>
       </td>
       <td>指定勤務開始時間：<%= format_basic_info(@user.work_start_time) %><br>
           指定勤務終了時間：<%= format_basic_info(@user.work_end_time) %></td>
@@ -23,31 +21,6 @@
       <td>締め：<%= l(@last_day, format: :short) %></td>
     </tr>
   </table>
-</div>
-
-<!--申請お知らせテーブル-->
-<div>
-  【所属長承認申請のお知らせ】<br>
-  <% if @attendance_notices != 0 %>
-    <%= link_to "【勤怠変更申請のお知らせ】", change_att_request_user_attendances_path(@user), remote: true, class: "btn" %>
-    <b><%= @attendance_notices %>件の申請があります</b>
-  <% else %>
-    【勤怠変更申請のお知らせ】
-  <% end %><br>
-  <% if @overwork_notices != 0 %>
-    <%= link_to "【残業申請のお知らせ】", edit_notice_overwork_user_attendances_path(@user), remote: true, class: "btn" %>
-    <b><%= @overwork_notices %>件の申請があります</b>
-  <% else %>
-    【残業申請のお知らせ】
-  <% end %>
-</div>
-<p></p>
-
-<!--新規ボタン３つ-->
-<div class="btn-users-show">
-  <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-primary" %>
-  <%= link_to "CSVを出力", '#', class: "btn btn-primary" %><br>
-  <%= link_to "勤怠修正ログ（承認済）", '#', class: "btn btn-primary" %>
 </div>
 
 <!--勤怠テーブル-->
@@ -86,7 +59,7 @@
     <tbody>
       <% @attendances.each do |day| %>
         <tr>
-          <td><%= link_to "残業申請", edit_overwork_request_user_attendance_path(@user, day), remote: true, class: "btn btn-primary" %></td>
+          <td></td>
           <td><%= l(day.worked_on, format: :short) %></td>
           <td>
             <% if day.worked_on.wday == 6 %>
@@ -99,18 +72,10 @@
           </td>
           <td><%= format_hour(day.started_at) if day.started_at.present? %></td>
           <td><%= format_min(day.started_at) if day.started_at.present? %></td>
-          <td>
-            <% if (btn_text = attendance_state(day)) && day.started_at.blank? %>
-              <%= link_to "#{btn_text}登録", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>
-            <% end %>
-          </td>
+          <td></td>
           <td><%= format_hour(day.finished_at) if day.finished_at.present? %></td>
           <td><%= format_min(day.finished_at) if day.finished_at.present? %></td>
-          <td>
-            <% if (btn_text = attendance_state(day)) && day.started_at.present? && day.finished_at.blank? %>
-              <%= link_to "#{btn_text}登録", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>
-            <% end %>
-          </td>
+          <td></td>
           <td>
             <% if day.started_at.present? && day.finished_at.present? %>
               <%= str_times = working_times(day.started_at.floor_to(15.minutes), day.finished_at.floor_to(15.minutes)) %>
@@ -148,7 +113,6 @@
         <td></td>
         <td rowspan="2">
           <span class="approval">所属長承認</span><br>
-          <%= link_to "申請", "#", class: "btn btn-block btn-primary" %>
         </td>
       </tr>
       <tr>
@@ -163,8 +127,3 @@
     </tfoot>
   </table>
 </div>
-
-<!--モーダルウインドウ-->
-<div id="edit-overwork-request" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
-<div id="edit-notice-overwork" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
-<div id="change-att-request" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
