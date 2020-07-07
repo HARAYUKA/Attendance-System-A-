@@ -27,7 +27,12 @@
 
 <!--申請お知らせテーブル-->
 <div>
-  【所属長承認申請のお知らせ】<br>
+  <% if @monthly_notices != 0 %>
+    <%= link_to "【所属長承認申請のお知らせ】",edit_monthly_user_attendances_path(@user), remote: true, class: "btn" %>
+    <b><%= @monthly_notices %>件の申請があります</b>
+  <% else %>
+    【所属長承認申請のお知らせ】
+  <% end %><br>
   <% if @attendance_notices != 0 %>
     <%= link_to "【勤怠変更申請のお知らせ】", change_att_request_user_attendances_path(@user), remote: true, class: "btn" %>
     <b><%= @attendance_notices %>件の申請があります</b>
@@ -155,8 +160,12 @@
         <td></td>
         <td></td>
         <td rowspan="2">
-          <span class="approval">所属長承認</span><br>
-          <%= link_to "申請", "#", class: "btn btn-block btn-primary" %>
+          <%= "所属長承認　未" %><br>
+          <%= form_with(model: @user, url: instructor_apploval_user_path(@user), local: true) do |f| %>
+            <%= f.hidden_field :first_day, :value => @first_day %>
+            <%= f.collection_select :monthly_instructor_confirmation, @instructors, :name, :name, {include_blank: true}, { class: "instructor_class" } %><br>
+            <%= f.submit "申請する", class: "btn btn-primary" %>
+          <% end %>
         </td>
       </tr>
       <tr>
@@ -172,7 +181,8 @@
   </table>
 </div>
 
-<!--モーダルウインドウ-->
+<!--各モーダルウインドウ-->
 <div id="edit-overwork-request" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <div id="edit-notice-overwork" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <div id="change-att-request" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="edit-monthly" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>

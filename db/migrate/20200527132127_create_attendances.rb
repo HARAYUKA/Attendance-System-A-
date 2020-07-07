@@ -20,6 +20,9 @@ class CreateAttendances < ActiveRecord::Migration[5.1]
       t.datetime :before_finished_at # 変更前退社時間
       t.string :edit_status # 勤怠編集の状態
       t.string :edit_instructor_confirmation # 勤怠編集指示者確認
+      # 1ヶ月勤怠承認
+      t.string :monthly_status # 1ヶ月承認の状態
+      t.string :monthly_instructor_confirmation # 1ヶ月承認指示者確認
 
       t.timestamps
     end

@@ -141,7 +141,14 @@ class AttendancesController < ApplicationController
     flash[:danger] = "無効な入力データがあった為、変更をキャンセルしました。"
     redirect_to @user and return
   end
+  
+  # 1ヶ月の勤怠申請モーダル表示
+  def edit_monthly
+  end
 
+  # 1ヶ月の勤怠申請モーダル更新
+  def update_monthly
+  end
   
   private
     # 1ヶ月分の勤怠情報を扱います。
