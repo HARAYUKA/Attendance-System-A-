@@ -80,6 +80,20 @@ class UsersController < ApplicationController
     @worked_sum = @attendances.where.not(started_at: nil).count
   end
   
+  # 所属長承認ボタン
+  def instructor_apploval
+    @user = User.find(params[:id])
+    @attendance = @user.attendances.find_by(worked_on: params[:user][:first_day])
+    if params[:user][:monthly_instructor_confirmation].present?
+      @attendance.monthly_status = "申請中"
+      @attendance.update_attributes(monthly_approval_params)
+      flash[:success] = "1ヶ月の勤怠を申請しました。"
+    else
+      flash[:danger] = "所属長を入力して下さい。"
+    end
+    redirect_to @user
+  end
+  
   private
   
     def user_params
@@ -88,5 +102,9 @@ class UsersController < ApplicationController
     
     def basic_info_params
       params.require(:user).permit(:department, :basic_work_time, :work_start_time)
+    end
+    
+    def monthly_approval_params
+      params.require(:user).permit(:monthly_instructor_confirmation)
     end
 end

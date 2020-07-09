@@ -144,6 +144,8 @@ class AttendancesController < ApplicationController
   
   # 1ヶ月の勤怠申請モーダル表示
   def edit_monthly
+    @user = User.find(params[:user_id])
+    @attendances = Attendance.where(monthly_instructor_confirmation: @user.name).order(user_id: "ASC", worked_on: "ASC").group_by(&:user_id)
   end
 
   # 1ヶ月の勤怠申請モーダル更新

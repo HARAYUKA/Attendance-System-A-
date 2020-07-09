@@ -161,7 +161,7 @@
         <td></td>
         <td rowspan="2">
           <%= "所属長承認　未" %><br>
-          <%= form_with(model: @user, url: instructor_apploval_user_path(@user), local: true) do |f| %>
+          <%= form_with(model: @user, url: instructor_apploval_user_path(@user), local: true, method: :patch) do |f| %>
             <%= f.hidden_field :first_day, :value => @first_day %>
             <%= f.collection_select :monthly_instructor_confirmation, @instructors, :name, :name, {include_blank: true}, { class: "instructor_class" } %><br>
             <%= f.submit "申請する", class: "btn btn-primary" %>
