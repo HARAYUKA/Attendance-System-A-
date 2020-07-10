@@ -150,6 +150,27 @@ class AttendancesController < ApplicationController
 
   # 1ヶ月の勤怠申請モーダル更新
   def update_monthly
+    @user = User.find(params[:user_id])
+    ActiveRecord::Base.transaction do
+      monthly_params.each do |id, item|
+        if item[:change] == "1"
+          attendance = Attendance.find(id)
+          if item[:monthly_status] == "承認"
+            item[:change] = "0"
+            attendance.update_attributes!(item)
+            flash[:success] = "申請を承認しました。"
+          elsif item[:monthly_status] == "否認"
+            item[:change] = "0"
+            attendance.update_attributes!(item)
+            flash[:danger] = "申請を否認しました。"
+          end
+        end
+      end
+    end
+    redirect_to @user and return
+  rescue ActiveRecord::RecordInvalid
+    flash[:danger] = "無効な入力データがあった為、変更をキャンセルしました。"
+    redirect_to @user and return
   end
   
   private
@@ -171,5 +192,10 @@ class AttendancesController < ApplicationController
     # 勤怠変更申請の更新情報
     def change_att_params
       params.require(:user).permit(attendances: [:edit_status, :change])[:attendances]
+    end
+    
+    # 1ヶ月の勤怠申請の更新情報
+    def monthly_params
+      params.require(:user).permit(attendances: [:monthly_status, :change])[:attendances]
     end
 end

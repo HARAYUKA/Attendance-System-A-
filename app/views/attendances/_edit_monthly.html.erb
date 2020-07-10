@@ -6,28 +6,29 @@
       </button>
     </div>
     <div class="modal-body">
-      <%= form_with(model: @attendance, url: update_monthly_user_attendances_path(@user), local: true, method: :patch) do |f| %>
+      <%= form_with(model: @user, url: update_monthly_user_attendances_path(@user), local: true, method: :patch) do |f| %>
         <% @attendances.each do |id, attendances| %>
-          <h1 class="modal-title">【からの1ヶ月の勤怠申請】</h1>
-          <table class="table table-bordered table-condensed table-striped table-request">
-            <thead>
-              <th>月</th>
-              <th>指示者確認印</th>
-              <th>変更</th>
-              <th>勤怠を確認する</th>
-            </thead>
-            
-            <% attendances.each do |notice| %>
-              <%= f.fields_for "attendances[]", notice do |att| %>
-                <tbody>
-                    <td></td>
-                    <td><%= att.select :monthly_status, ['なし', '申請中', '承認', '否認'], {include_blank: true}, class: "form_control" %></td>
-                    <td><%= att.check_box :change, class: "change" %></td>
-                    <td><%= link_to "確認", confirm_one_month_user_path(@user, attendance_id: notice.id), class: "btn btn-primary btn-md" %></td>
-                </tbody>
+          <% user = User.find(id) %>
+            <h1 class="modal-title">【<%= user.name %>からの1ヶ月の勤怠申請】</h1>
+            <table class="table table-bordered table-condensed table-striped table-request">
+              <thead>
+                <th>月</th>
+                <th>指示者確認印</th>
+                <th>変更</th>
+                <th>勤怠を確認する</th>
+              </thead>
+              
+              <% attendances.each do |notice| %>
+                <%= f.fields_for "attendances[]", notice do |att| %>
+                  <tbody>
+                      <td><%= l(notice.worked_on, format: :middle) %></td>
+                      <td><%= att.select :monthly_status, ['なし', '申請中', '承認', '否認'], {include_blank: true}, class: "form_control" %></td>
+                      <td><%= att.check_box :change, class: "change" %></td>
+                      <td><%= link_to "確認", confirm_one_month_user_path(@user, attendance_id: notice.id), class: "btn btn-primary btn-md" %></td>
+                  </tbody>
+                <% end %>
               <% end %>
-            <% end %>
-          </table>
+            </table>
         <% end %>
         <div class="center">
           <%= f.submit "変更を送信する", class: "btn btn-primary btn-block" %>

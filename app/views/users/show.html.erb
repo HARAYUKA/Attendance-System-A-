@@ -160,7 +160,15 @@
         <td></td>
         <td></td>
         <td rowspan="2">
-          <%= "所属長承認　未" %><br>
+          <!--< % if day.monthly_status == "申請中" %>-->
+            <!--< %= day.monthly_instructor_confirmation %>へ< %= day.monthly_status %><br>-->
+          <!--< % elsif day.monthly_status == "承認" %>-->
+            <!--< %= day.monthly_instructor_confirmation %>から< %= day.monthly_status %>済<br>-->
+          <!--< % elsif day.monthly_status == "否認" %>-->
+            <!--< %= day.monthly_instructor_confirmation %>から< %= day.monthly_status %>済<br>-->
+          <!--< % else %>-->
+            <%= "所属長承認　未" %><br>
+          <!--< % end %>-->
           <%= form_with(model: @user, url: instructor_apploval_user_path(@user), local: true, method: :patch) do |f| %>
             <%= f.hidden_field :first_day, :value => @first_day %>
             <%= f.collection_select :monthly_instructor_confirmation, @instructors, :name, :name, {include_blank: true}, { class: "instructor_class" } %><br>
