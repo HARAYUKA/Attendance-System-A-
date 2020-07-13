@@ -23,6 +23,7 @@ class UsersController < ApplicationController
     @overwork_notices = Attendance.where(overwork_request_status: "申請中", overwork_instructor_confirmation: @user.name).count
     @attendance_notices = Attendance.where(edit_status: "申請中", edit_instructor_confirmation: @user.name).count
     @monthly_notices = Attendance.where(monthly_status: "申請中", monthly_instructor_confirmation: @user.name).count
+    @monthly_attendance = @user.attendances.find_by(worked_on: @first_day)
   end
   
   def new

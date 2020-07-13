@@ -10,7 +10,7 @@
   <% @users.each do |user| %>
     <tr>
       <td>
-        <div class="col-md-22 col-md-offset-1">
+        <div class="col-md-15">
         <% if current_user.admin? && !current_user?(user) %>
         <%= user.name %><br>
           <%= link_to "削除", user, method: :delete,
@@ -20,10 +20,10 @@
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h4 class="panel-title">
-                  <button type="button" data-taggle="collapse" data-target="#collapse<%= user.id %>" class="btn btn-primary btn-lg">編集</button>
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse1<%= user.id %>"><button type="submit" class="btn btn-primary">編集</button></a>
                 </h4>
               </div>
-              <div id="collapse<%= user.id %>" class="panel-collapse collapse">
+              <div id="collapse1<%= user.id %>" class="panel-collapse collapse">
                 <div class="panel-body"><%= render 'users/form1', locals:{ user: user} %></div>
               </div>
             </div>
