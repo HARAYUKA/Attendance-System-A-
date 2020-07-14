@@ -1,5 +1,5 @@
-class AddDepartmentToUsers < ActiveRecord::Migration[5.1]
+class AddAffilicationToUsers < ActiveRecord::Migration[5.1]
   def change
-    add_column :users, :department, :string
+    add_column :users, :affilication, :string
   end
 end
