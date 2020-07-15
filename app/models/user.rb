@@ -11,8 +11,6 @@ class User < ApplicationRecord
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: true
   validates :affilication, length: { in: 2..30 }, allow_blank: true
-  validates :employee_number, presence: true
-  validates :uid, presence: true
   validates :basic_work_time, presence: true
   validates :work_start_time, presence: true
   has_secure_password

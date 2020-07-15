@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   before_action :set_one_month, only: :show
   
   def index
-    @users = User.paginate(page: params[:page])
+    @users = User.all
   end
   
   def show
@@ -95,7 +95,7 @@ class UsersController < ApplicationController
     end
     
     def basic_info_params
-      params.require(:user).permit(:name, :email, :affilication, :employee_number, :uid, :basic_work_time, :work_start_time, :work_end_time)
+      params.require(:user).permit(:name, :email, :affilication, :employee_number, :uid, :basic_work_time, :work_start_time, :work_end_tim)
     end
     
     def monthly_approval_params
