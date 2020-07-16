@@ -6,14 +6,14 @@
       <td>
         <%= l(@first_day, format: :middle) %> 時間管理票
       </td>
-      <td>指定勤務開始時間：<%= format_basic_info(@user.work_start_time) %><br>
-          指定勤務終了時間：<%= format_basic_info(@user.work_end_time) %></td>
+      <td>指定勤務開始時間：<%= format_basic_info(@user.designated_work_start_time) %><br>
+          指定勤務終了時間：<%= format_basic_info(@user.designated_work_end_time) %></td>
       <td colspan=3>基本勤務時間：<%= format_basic_info(@user.basic_work_time) %></td>
       <td>初日：<%= l(@first_day, format: :short) %></td>
     </tr>
 
     <tr>
-      <td>所属：<%= @user.affilication.present? ? @user.affilication : "未所属" %></td>
+      <td>所属：<%= @user.affiliation.present? ? @user.affiliation : "未所属" %></td>
       <td>名前：<%= @user.name %></td>
       <td>コード</td>
       <td></td>
@@ -85,10 +85,10 @@
           <td><%= day.note %></td>
           <td><%= format_hour(day.scheduled_end_time) if day.scheduled_end_time.present? %></td>
           <td><%= format_min(day.scheduled_end_time) if day.scheduled_end_time.present? %></td>
-          <td><%= overtime_info(day.scheduled_end_time, @user.work_end_time, day.next_day) if day.scheduled_end_time.present? %></td>
+          <td><%= overtime_info(day.scheduled_end_time, @user.designated_work_end_time, day.next_day) if day.scheduled_end_time.present? %></td>
           <td><%= day.work_details %></td>
           <% if day.overwork_request_status == "申請中" %>
-            <td><%= day.overwork_instructor_confirmation %>へ<%= day.overwork_request_status %></td>
+            <td><%= day.overwork_superior_confirmation %>へ<%= day.overwork_request_status %></td>
           <% elsif day.overwork_request_status == "承認" %>
             <td>残業承認済</td>
           <% elsif day.overwork_request_status == "否認"%>
@@ -118,7 +118,7 @@
       <tr>
         <td colspan="2"><%= @attendances.count %></td>
         <td colspan="5"></td>
-        <td colspan="2"><%= format_basic_info(@user.work_start_time).to_f * @worked_sum %></td>
+        <td colspan="2"><%= format_basic_info(@user.designated_work_start_time).to_f * @worked_sum %></td>
         <td colspan="2"><%= format("%.2f", @total_working_times.to_f) %></td>
         <td></td>
         <td></td>

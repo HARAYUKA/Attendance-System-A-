@@ -32,10 +32,10 @@
                     <td><%= l(notice.worked_on, format: :short) %></td>
                     <td><%= $days_of_the_week[notice.worked_on.wday] %></td>
                     <td><%= l(notice.scheduled_end_time, format: :time) %></td>
-                    <td><%= format_basic_info(user.work_end_time) %></td>
+                    <td><%= format_basic_info(user.designated_work_end_time) %></td>
                     <td>
                       <% if notice.scheduled_end_time.present? %>
-                        <%= overtime_info(notice.scheduled_end_time, user.work_end_time, notice.next_day) %>
+                        <%= overtime_info(notice.scheduled_end_time, user.designated_work_end_time, notice.next_day) %>
                       <% end %>
                     </td>
                     <td><%= notice.try(:work_details) %></td>

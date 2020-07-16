@@ -28,14 +28,14 @@ class AttendancesController < ApplicationController
   
   # 1ヶ月の勤怠編集
   def edit_one_month
-    @instructors = User.where(instructor: true).where.not(id: @user.id)
+    @superiors = User.where(superior: true).where.not(id: @user.id)
   end
   
   # 1ヶ月の勤怠更新
   def update_one_month
     ActiveRecord::Base.transaction do # トランザクションを開始します。
       attendances_params.each do |id, item|
-        if item[:edit_instructor_confirmation].present?
+        if item[:edit_superior_confirmation].present?
           if item[:edit_started_at].blank? || item[:edit_finished_at].blank? || item[:note].blank?
             flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
             redirect_to user_url(date: params[:date]) and return
@@ -59,7 +59,7 @@ class AttendancesController < ApplicationController
   # 勤怠変更申請モーダル
   def change_att_request
     @user = User.find(params[:user_id])
-    @attendances = Attendance.where(edit_status: "申請中", edit_instructor_confirmation: @user.name).order(user_id: "ASC", worked_on: "ASC").group_by(&:user_id)
+    @attendances = Attendance.where(edit_status: "申請中", edit_superior_confirmation: @user.name).order(user_id: "ASC", worked_on: "ASC").group_by(&:user_id)
   end
   
   # 勤怠変更申請モーダル更新
@@ -98,14 +98,14 @@ class AttendancesController < ApplicationController
   def edit_overwork_request
     @user = User.find(params[:user_id])
     @attendance = @user.attendances.find(params[:id])
-    @instructors = User.where(instructor: true).where.not(id: @user.id)
+    @superiors = User.where(superior: true).where.not(id: @user.id)
   end
   
   # 残業申請モーダル更新
   def update_overwork_request
     @user = User.find(params[:user_id])
     @attendance = @user.attendances.find(params[:id])
-    if params[:attendance][:work_details].blank? || params[:attendance][:overwork_instructor_confirmation].blank?
+    if params[:attendance][:work_details].blank? || params[:attendance][:overwork_superior_confirmation].blank?
       flash[:danger] = "未入力の項目があります。"
     else
       @attendance.overwork_request_status = "申請中"
@@ -118,7 +118,7 @@ class AttendancesController < ApplicationController
   # 残業申請お知らせモーダル
   def edit_notice_overwork
     @user = User.find(params[:user_id])
-    @attendances = Attendance.where(overwork_request_status: "申請中", overwork_instructor_confirmation: @user.name).order(user_id: "ASC", worked_on: "ASC").group_by(&:user_id)
+    @attendances = Attendance.where(overwork_request_status: "申請中", overwork_superior_confirmation: @user.name).order(user_id: "ASC", worked_on: "ASC").group_by(&:user_id)
   end
   
   # 残業申請お知らせモーダル更新
@@ -145,7 +145,7 @@ class AttendancesController < ApplicationController
   # 1ヶ月の勤怠申請モーダル表示
   def edit_monthly
     @user = User.find(params[:user_id])
-    @attendances = Attendance.where(monthly_instructor_confirmation: @user.name).order(user_id: "ASC", worked_on: "ASC").group_by(&:user_id)
+    @attendances = Attendance.where(monthly_superior_confirmation: @user.name).order(user_id: "ASC", worked_on: "ASC").group_by(&:user_id)
   end
 
   # 1ヶ月の勤怠申請モーダル更新
@@ -176,12 +176,12 @@ class AttendancesController < ApplicationController
   private
     # 1ヶ月分の勤怠情報を扱います。
     def attendances_params
-      params.require(:user).permit(attendances: [:edit_started_at, :edit_finished_at, :note, :edit_instructor_confirmation])[:attendances]
+      params.require(:user).permit(attendances: [:edit_started_at, :edit_finished_at, :note, :edit_superior_confirmation])[:attendances]
     end
     
     # 残業申請の更新情報
     def overwork_params
-      params.require(:attendance).permit(:scheduled_end_time, :next_day, :work_details, :overwork_instructor_confirmation)
+      params.require(:attendance).permit(:scheduled_end_time, :next_day, :work_details, :overwork_superior_confirmation)
     end
     
     # 残業申請お知らせの更新情報

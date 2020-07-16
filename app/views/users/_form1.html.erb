@@ -7,8 +7,8 @@
   <%= f.label :email, class: "label-#{yield(:class_text)}" %>
   <%= f.email_field :email, class: "form-control" %>
   
-  <%= f.label :affilication, class: "label-#{yield(:class_text)}" %>
-  <%= f.text_field :affilication, class: "form-control" %>
+  <%= f.label :affiliation, class: "label-#{yield(:class_text)}" %>
+  <%= f.text_field :affiliation, class: "form-control" %>
   
   <%= f.label :employee_number, class: "label-#{yield(:class_text)}" %>
   <%= f.text_field :employee_number, class: "form-control" %>
@@ -22,11 +22,11 @@
   <%= f.label :basic_time, class: "label-#{yield(:class_text)}" %>
   <%= f.time_field :basic_time, class: "form-control" %>
   
-  <%= f.label :work_start_time, class: "label-#{yield(:class_text)}" %>
-  <%= f.time_field :work_start_time, class: "form-control" %>
+  <%= f.label :designated_work_start_time, class: "label-#{yield(:class_text)}" %>
+  <%= f.time_field :designated_work_start_time, class: "form-control" %>
   
-  <%= f.label :work_end_time, class: "label-#{yield(:class_text)}" %>
-  <%= f.time_field :work_end_time, class: "form-control" %>
+  <%= f.label :designated_work_end_time, class: "label-#{yield(:class_text)}" %>
+  <%= f.time_field :designated_work_end_time, class: "form-control" %>
 
   <%= f.submit "編集する", class: "btn btn-primary btn-block btn-#{yield(:class_text)}" %>
 <% end %>

@@ -8,11 +8,12 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   
   resources :users do
+    collection { post :import}
      member do
       get 'edit_basic_info'
       patch 'update_basic_info'
       get 'confirm_one_month' # 勤怠変更申請送信
-      patch 'instructor_apploval' # 所属長承認ボタン
+      patch 'superior_apploval' # 所属長承認ボタン
       get 'attendances/edit_one_month' # 1ヶ月の勤怠編集
       patch 'attendances/update_one_month' # 1ヶ月の勤怠更新
     end

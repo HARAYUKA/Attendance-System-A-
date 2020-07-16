@@ -10,12 +10,24 @@ class UsersController < ApplicationController
     @users = User.all
   end
   
+  def import
+    if params[:csv_file].blank?
+      flash[:danger] = '読み込むCSVを選択してください。'
+    elsif File.extname(params[:csv_file].original_filename) != ".csv"
+      flash[:danger] = 'csvファイルのみ読み込み可能です。'
+    else
+      num = User.import_by_csv(params[:csv_file])
+      flash[:success] = "#{ num.to_s }件のデータ情報を追加/更新しました。"
+    end
+    redirect_to action: 'index'
+  end
+  
   def show
     @worked_sum = @attendances.where.not(started_at: nil).count
-    @instructors = User.where(instructor: true).where.not(id: @user.id)
-    @overwork_notices = Attendance.where(overwork_request_status: "申請中", overwork_instructor_confirmation: @user.name).count
-    @attendance_notices = Attendance.where(edit_status: "申請中", edit_instructor_confirmation: @user.name).count
-    @monthly_notices = Attendance.where(monthly_status: "申請中", monthly_instructor_confirmation: @user.name).count
+    @superiors = User.where(superior: true).where.not(id: @user.id)
+    @overwork_notices = Attendance.where(overwork_request_status: "申請中", overwork_superior_confirmation: @user.name).count
+    @attendance_notices = Attendance.where(edit_status: "申請中", edit_superior_confirmation: @user.name).count
+    @monthly_notices = Attendance.where(monthly_status: "申請中", monthly_superior_confirmation: @user.name).count
     @monthly_attendance = @user.attendances.find_by(worked_on: @first_day)
   end
   
@@ -75,10 +87,10 @@ class UsersController < ApplicationController
   end
   
   # 所属長承認ボタン
-  def instructor_apploval
+  def superior_apploval
     @user = User.find(params[:id])
     @attendance = @user.attendances.find_by(worked_on: params[:user][:first_day])
-    if params[:user][:monthly_instructor_confirmation].present?
+    if params[:user][:monthly_superior_confirmation].present?
       @attendance.monthly_status = "申請中"
       @attendance.update_attributes(monthly_approval_params)
       flash[:success] = "1ヶ月の勤怠を申請しました。"
@@ -91,14 +103,14 @@ class UsersController < ApplicationController
   private
   
     def user_params
-      params.require(:user).permit(:name, :email, :affilication, :password, :password_confirmation)
+      params.require(:user).permit(:name, :email, :affiliation, :password, :password_confirmation)
     end
     
     def basic_info_params
-      params.require(:user).permit(:name, :email, :affilication, :employee_number, :uid, :basic_work_time, :work_start_time, :work_end_tim)
+      params.require(:user).permit(:name, :email, :affiliation, :employee_number, :uid, :basic_work_time, :designated_work_start_time, :designated_work_end_timework_end_tim)
     end
     
     def monthly_approval_params
-      params.require(:user).permit(:monthly_instructor_confirmation)
+      params.require(:user).permit(:monthly_superior_confirmation)
     end
 end

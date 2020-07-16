@@ -24,11 +24,11 @@ module AttendancesHelper
     format("%.2d", (((time.min) / 15) * 15))
   end
   
-  def overtime_info(scheduled_end_time, work_end_time, next_day)
+  def overtime_info(scheduled_end_time, designated_work_end_time, next_day)
     if next_day == true
-      format("%.2f", ((((scheduled_end_time.hour - work_end_time.hour) * 60 + (scheduled_end_time.min - work_end_time.min)) / 60.0) + 24))
+      format("%.2f", ((((scheduled_end_time.hour - designated_work_end_time.hour) * 60 + (scheduled_end_time.min - designated_work_end_time.min)) / 60.0) + 24))
     else
-      format("%.2f", ((((scheduled_end_time.hour - work_end_time.hour) * 60 + (scheduled_end_time.min - work_end_time.min)) / 60.0)))
+      format("%.2f", ((((scheduled_end_time.hour - designated_work_end_time.hour) * 60 + (scheduled_end_time.min - designated_work_end_time.min)) / 60.0)))
     end
   end
 end

@@ -8,14 +8,14 @@
         <%= l(@first_day, format: :middle) %> 時間管理票
         <%= link_to " ➡︎︎", user_path(date: @first_day.next_month), class: "btn btn-info-small" %>
       </td>
-      <td>指定勤務開始時間：<%= format_basic_info(@user.work_start_time) %><br>
-          指定勤務終了時間：<%= format_basic_info(@user.work_end_time) %></td>
+      <td>指定勤務開始時間：<%= format_basic_info(@user.designated_work_start_time) %><br>
+          指定勤務終了時間：<%= format_basic_info(@user.designated_work_end_time) %></td>
       <td colspan=3>基本勤務時間：<%= format_basic_info(@user.basic_work_time) %></td>
       <td>初日：<%= l(@first_day, format: :short) %></td>
     </tr>
 
     <tr>
-      <td>所属：<%= @user.affilication.present? ? @user.affilication : "未所属" %></td>
+      <td>所属：<%= @user.affiliation.present? ? @user.affiliation : "未所属" %></td>
       <td>名前：<%= @user.name %></td>
       <td>コード</td>
       <td></td>
@@ -125,11 +125,11 @@
           <td><%= day.note %></td>
           <td><%= format_hour(day.scheduled_end_time) if day.scheduled_end_time.present? %></td>
           <td><%= format_min(day.scheduled_end_time) if day.scheduled_end_time.present? %></td>
-          <td><%= overtime_info(day.scheduled_end_time, @user.work_end_time, day.next_day) if day.scheduled_end_time.present? %></td>
+          <td><%= overtime_info(day.scheduled_end_time, @user.designated_work_end_time, day.next_day) if day.scheduled_end_time.present? %></td>
           <td><%= day.work_details %></td>
           <td>
             <% if day.overwork_request_status == "申請中" %>
-              <%= day.overwork_instructor_confirmation %>へ<%= day.overwork_request_status %><%= "　" %>
+              <%= day.overwork_superior_confirmation %>へ<%= day.overwork_request_status %><%= "　" %>
             <% elsif day.overwork_request_status == "承認" %>
               残業承認済<%= "　" %>
             <% elsif day.overwork_request_status == "否認"%>
@@ -137,7 +137,7 @@
             <% end %>
 
             <% if day.edit_status == "申請中" %>
-              <%= day.edit_instructor_confirmation %>へ<%= day.edit_status %>
+              <%= day.edit_superior_confirmation %>へ<%= day.edit_status %>
             <% elsif day.edit_status == "承認" %>
               勤怠変更承認済
             <% elsif day.edit_status == "否認" %>
@@ -161,17 +161,17 @@
         <td></td>
         <td rowspan="2">
           <% if @monthly_attendance.monthly_status == "申請中" %>
-            <%= @monthly_attendance.monthly_instructor_confirmation %>へ<%= @monthly_attendance.monthly_status %><br>
+            <%= @monthly_attendance.monthly_superior_confirmation %>へ<%= @monthly_attendance.monthly_status %><br>
           <% elsif @monthly_attendance.monthly_status == "承認" %>
-            <%= @monthly_attendance.monthly_instructor_confirmation %>から<%= @monthly_attendance.monthly_status %>済<br>
+            <%= @monthly_attendance.monthly_superior_confirmation %>から<%= @monthly_attendance.monthly_status %>済<br>
           <% elsif @monthly_attendance.monthly_status == "否認" %>
-            <%= @monthly_attendance.monthly_instructor_confirmation %>から<%= @monthly_attendance.monthly_status %>済<br>
+            <%= @monthly_attendance.monthly_superior_confirmation %>から<%= @monthly_attendance.monthly_status %>済<br>
           <% else %>
             <%= "所属長承認　未" %><br>
           <% end %>
-          <%= form_with(model: @user, url: instructor_apploval_user_path(@user), local: true, method: :patch) do |f| %>
+          <%= form_with(model: @user, url: superior_apploval_user_path(@user), local: true, method: :patch) do |f| %>
             <%= f.hidden_field :first_day, :value => @first_day %>
-            <%= f.collection_select :monthly_instructor_confirmation, @instructors, :name, :name, {include_blank: true}, { class: "instructor_class" } %><br>
+            <%= f.collection_select :monthly_superior_confirmation, @superiors, :name, :name, {include_blank: true}, { class: "superior_class" } %><br>
             <%= f.submit "申請する", class: "btn btn-primary" %>
           <% end %>
         </td>
@@ -179,7 +179,7 @@
       <tr>
         <td colspan="2"><%= @attendances.count %></td>
         <td colspan="5"></td>
-        <td colspan="2"><%= format_basic_info(@user.work_start_time).to_f * @worked_sum %></td>
+        <td colspan="2"><%= format_basic_info(@user.designated_work_start_time).to_f * @worked_sum %></td>
         <td colspan="2"><%= format("%.2f", @total_working_times.to_f) %></td>
         <td></td>
         <td></td>

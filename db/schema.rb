@@ -22,16 +22,16 @@ ActiveRecord::Schema.define(version: 20200624125504) do
     t.boolean "next_day"
     t.string "work_details"
     t.string "overwork_request_status"
-    t.string "overwork_instructor_confirmation"
+    t.string "overwork_superior_confirmation"
     t.boolean "change"
     t.datetime "edit_started_at"
     t.datetime "edit_finished_at"
     t.datetime "before_started_at"
     t.datetime "before_finished_at"
     t.string "edit_status"
-    t.string "edit_instructor_confirmation"
+    t.string "edit_superior_confirmation"
     t.string "monthly_status"
-    t.string "monthly_instructor_confirmation"
+    t.string "monthly_superior_confirmation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_attendances_on_user_id"
@@ -47,11 +47,11 @@ ActiveRecord::Schema.define(version: 20200624125504) do
     t.string "password_digest"
     t.string "remember_digest"
     t.boolean "admin", default: false
-    t.string "affilication"
-    t.datetime "basic_work_time", default: "2020-07-13 23:00:00"
-    t.datetime "work_start_time", default: "2020-07-14 00:00:00"
-    t.datetime "work_end_time", default: "2020-07-14 09:00:00"
-    t.boolean "instructor", default: false
+    t.string "affiliation"
+    t.datetime "basic_work_time", default: "2020-07-15 23:00:00"
+    t.datetime "designated_work_start_time", default: "2020-07-16 00:00:00"
+    t.datetime "designated_work_end_time", default: "2020-07-16 09:00:00"
+    t.boolean "superior", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
