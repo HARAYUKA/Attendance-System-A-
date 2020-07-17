@@ -9,13 +9,16 @@ Rails.application.routes.draw do
   
   resources :users do
     collection { post :import}
-     member do
-      get 'edit_basic_info'
-      patch 'update_basic_info'
+    member do
+      get 'edit_basic_info' # 基本情報編集
+      patch 'update_basic_info' # 基本情報更新
       get 'confirm_one_month' # 勤怠変更申請送信
       patch 'superior_apploval' # 所属長承認ボタン
       get 'attendances/edit_one_month' # 1ヶ月の勤怠編集
       patch 'attendances/update_one_month' # 1ヶ月の勤怠更新
+    end
+    collection do
+      get 'working_members' # 出勤中社員一覧
     end
     resources :attendances, only: :update do
       member do

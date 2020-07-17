@@ -1,0 +1,15 @@
+<% provide(:title, "Working Members") %>
+<h1>出勤中社員一覧</h1>
+
+<table class="table table-bordered table-hover table-allmembers">
+  <tr>
+    <th class="center">社員番号</th>
+    <th class="center">名前</th>
+  </tr>
+  <% @users.each do |user| %>
+    <tr>
+      <td class="center"><%= user.employee_number %></td>
+      <td class="center"><%= user.name %></td>
+    </tr>
+  <% end %>
+</table>

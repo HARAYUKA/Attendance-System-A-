@@ -10,6 +10,7 @@ class UsersController < ApplicationController
     @users = User.all
   end
   
+  # CSVインポート
   def import
     if params[:csv_file].blank?
       flash[:danger] = '読み込むCSVを選択してください。'
@@ -20,6 +21,12 @@ class UsersController < ApplicationController
       flash[:success] = "#{ num.to_s }件のデータ情報を追加/更新しました。"
     end
     redirect_to action: 'index'
+  end
+  
+  def working_members
+    @users = User.includes(:attendances).references(:attendances).
+      where('attendances.started_at IS NOT NULL').
+      where('attendances.finished_at IS NULL')
   end
   
   def show
