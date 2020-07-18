@@ -1,0 +1,28 @@
+<% provide(:title, 'Base-Index') %>
+
+<h1>拠点一覧</h1>
+
+<div class="col-md-10 col-md-offset-1">
+  <table class="table table-bordered table-condensed user-table">
+    <tr>
+      <th></th>
+      <th></th>
+      <th>拠点番号</th>
+      <th>拠点名</th>
+      <th>勤怠種類</th>
+    </tr>
+    
+    <tbody>
+      <% @bases.each do |b| %>
+        <tr>
+          <td><%= link_to "修正", edit_basis_path, remote: true, class: "btn btn-primary" %></td>
+          <td><%= link_to "削除", '#', method: :delete, class: "btn btn-primary", data: {confirm: "削除してよろしいですか？" } %></td>
+          <td><%= b.base_number %></td>
+          <td><%= b.base_name %></td>
+          <td><%= b.base_type %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to "拠点情報追加", new_basis_path(@bases), class: "btn btn-lg btn-primary" %>
+</div>

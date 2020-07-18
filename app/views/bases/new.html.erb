@@ -1,0 +1,24 @@
+<%= form_with(model: @base, url: basis_path(@base), local: true, method: :patch) do |f| %>
+  <table class="table table-bordered table-condensed">
+    <tr>
+      <td>
+        <%= f.label :base_number, class: "label-#{yield(:class_text)}" %>
+        <%= f.text_field :base_number, class: "form-control", placeholder: "拠点番号を記入してください" %>
+      </td>
+          
+      <td>
+        <%= f.label :base_name, class: "label-#{yield(:class_text)}" %>
+        <%= f.text_field :base_name, class: "form-control", placeholder: "拠点名を記入してください" %>
+      </td>
+          
+      <td>
+        <%= f.label :base_type, class: "label-#{yield(:class_text)}" %></br>
+        <%= f.select :base_type, [["選択してください", 0],["出勤", 1],["退勤", 2]] %>
+      </td>
+    </tr>
+  </table>
+  <div class="center">
+    <%= f.submit yield(:button_text), class: "btn btn-primary btn-#{yield(:class_text)}" %>
+    <button type="button" class="btn btn-default btn-<%= yield(:class_text) %>" data-dismiss="modal">キャンセル</button>
+  </div>
+<% end %>
