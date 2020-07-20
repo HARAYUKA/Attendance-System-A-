@@ -1,10 +1,15 @@
 class BasesController < ApplicationController
+  before_action :set_base, only: [:show, :edit, :update, :destroy]
+  
   def index
     @bases = Base.all
   end
   
+  def show
+  end
+  
   def edit
-  end 
+  end
   
   def update
     if @base.update_attributes(base_params)
@@ -31,7 +36,7 @@ class BasesController < ApplicationController
   
   def destroy
     @base.destroy
-    flash[:success] = "#{@base.name}のデータを削除しました。"
+    flash[:success] = "#{@base.base_name}のデータを削除しました。"
     redirect_to bases_url
   end
   

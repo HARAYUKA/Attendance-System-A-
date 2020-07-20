@@ -58,4 +58,9 @@ class ApplicationController < ActionController::Base
     flash[:danger] = "ページ情報の取得に失敗しました、再アクセスしてください。"
     redirect_to root_url
   end
+  
+  # paramsハッシュから拠点情報を取得
+  def set_base
+    @base = Base.find(params[:id])
+  end
 end

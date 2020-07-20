@@ -12,17 +12,15 @@
       <th>勤怠種類</th>
     </tr>
     
-    <tbody>
-      <% @bases.each do |b| %>
-        <tr>
-          <td><%= link_to "修正", edit_basis_path, remote: true, class: "btn btn-primary" %></td>
-          <td><%= link_to "削除", '#', method: :delete, class: "btn btn-primary", data: {confirm: "削除してよろしいですか？" } %></td>
-          <td><%= b.base_number %></td>
-          <td><%= b.base_name %></td>
-          <td><%= b.base_type %></td>
-        </tr>
-      <% end %>
-    </tbody>
+    <% @bases.each do |base| %>
+      <tr>
+        <td><%= link_to "修正", edit_basis_path(base), class: "btn btn-primary" %></td>
+        <td><%= link_to "削除", basis_path(base), method: :delete, class: "btn btn-primary", data: {confirm: "削除してよろしいですか？" } %></td>
+        <td><%= base.base_number %></td>
+        <td><%= base.base_name %></td>
+        <td><%= base.base_type %></td>
+      </tr>
+    <% end %>
   </table>
-  <%= link_to "拠点情報追加", new_basis_path(@bases), class: "btn btn-lg btn-primary" %>
+  <%= link_to "拠点情報追加", new_basis_path, class: "btn btn-lg btn-primary" %>
 </div>

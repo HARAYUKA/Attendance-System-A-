@@ -1,7 +1,7 @@
-<% provide(:class_text, 'create_base') %>
-<% provide(:button_text, '新規作成') %>
+<% provide(:class_text, 'edit_base') %>
+<% provide(:button_text, '編集を送信する') %>
 
-<h1>拠点情報追加</h1>
+<h1>拠点情報編集</h1>
 
 <%= form_with(model: @base, local: true) do |f| %>
   <%= render 'shared/error_messages', object: @base %>
