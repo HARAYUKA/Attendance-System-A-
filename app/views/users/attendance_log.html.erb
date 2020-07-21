@@ -21,20 +21,18 @@
         <th>承認日</th>
       </tr>
     </thead>
-    <% if current_user == @user %>
-      <% @attendances.each do |att| %>
-        <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </tbody>
-      <% end %>
+    <% @attendances.each do |att| %>
+      <tbody>
+        <tr>
+          <td><%= att.worked_on if att.worked_on.present? %></td>
+          <td><%= l(att.before_started_at, format: :time) if att.before_started_at.present? %></td>
+          <td><%= l(att.before_finished_at, format: :time) if att.before_finished_at.present? %></td>
+          <td><%= l(att.started_at, format: :time) if att.started_at.present? %></td>
+          <td><%= l(att.finished_at, format: :time) if att.finished_at.present? %></td>
+          <td><%= att.edit_superior_confirmation %></td>
+          <td><%= l(att.approval_date, format: :original) if att.approval_date.present? %></td>
+        </tr>
+      </tbody>
     <% end %>
   </table>
 </div>

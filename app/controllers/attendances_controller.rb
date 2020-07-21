@@ -79,6 +79,7 @@ class AttendancesController < ApplicationController
             attendance.started_at = attendance.edit_started_at
             attendance.finished_at = attendance.edit_finished_at
             item[:change] = "0"
+            item[:approval_date] = Date.current
             attendance.update_attributes!(item)
             flash[:success] = "変更を送信しました。"
           elsif item[:edit_status] == "否認"
@@ -191,7 +192,7 @@ class AttendancesController < ApplicationController
     
     # 勤怠変更申請の更新情報
     def change_att_params
-      params.require(:user).permit(attendances: [:edit_status, :change])[:attendances]
+      params.require(:user).permit(attendances: [:edit_status, :change, :approval_date])[:attendances]
     end
     
     # 1ヶ月の勤怠申請の更新情報

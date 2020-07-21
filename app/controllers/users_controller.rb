@@ -35,7 +35,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @first_day = Date.today.to_date.beginning_of_month
     @last_day = @first_day.end_of_month
-    @attendances = Attendance.where(edit_status: "承認", worked_on: @first_day..@last_day).order(worked_on: "ASC")
+    @attendances = @user.attendances.where(edit_status: "承認", worked_on: @first_day..@last_day).order(worked_on: "ASC")
   end
   
   def show

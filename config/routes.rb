@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     member do
       get 'edit_basic_info' # 基本情報編集
       patch 'update_basic_info' # 基本情報更新
-      get 'confirm_one_month' # 勤怠変更申請送信
+      get 'confirm_one_month' # 勤怠確認ボタン
       patch 'superior_apploval' # 所属長承認ボタン
       get 'attendances/edit_one_month' # 1ヶ月の勤怠編集
       patch 'attendances/update_one_month' # 1ヶ月の勤怠更新

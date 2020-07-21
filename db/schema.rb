@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20200718131419) do
     t.datetime "before_finished_at"
     t.string "edit_status"
     t.string "edit_superior_confirmation"
+    t.date "approval_date"
     t.string "monthly_status"
     t.string "monthly_superior_confirmation"
     t.datetime "created_at", null: false
@@ -56,9 +57,9 @@ ActiveRecord::Schema.define(version: 20200718131419) do
     t.string "remember_digest"
     t.boolean "admin", default: false
     t.string "affiliation"
-    t.datetime "basic_work_time", default: "2020-07-17 23:00:00"
-    t.datetime "designated_work_start_time", default: "2020-07-18 00:00:00"
-    t.datetime "designated_work_end_time", default: "2020-07-18 09:00:00"
+    t.datetime "basic_work_time", default: "2020-07-20 23:00:00"
+    t.datetime "designated_work_start_time", default: "2020-07-21 00:00:00"
+    t.datetime "designated_work_end_time", default: "2020-07-21 09:00:00"
     t.boolean "superior", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
