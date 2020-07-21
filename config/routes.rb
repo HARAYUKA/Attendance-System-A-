@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       patch 'superior_apploval' # 所属長承認ボタン
       get 'attendances/edit_one_month' # 1ヶ月の勤怠編集
       patch 'attendances/update_one_month' # 1ヶ月の勤怠更新
+      get 'attendance_log' # 勤怠ログ
     end
     collection do
       get 'working_members' # 出勤中社員一覧

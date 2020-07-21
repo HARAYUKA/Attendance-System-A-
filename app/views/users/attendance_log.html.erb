@@ -1,0 +1,40 @@
+<% provide(:class_text, 'attendance_log') %>
+
+<h1>勤怠ログ</h1>
+
+<div>
+  <%= form_with(model: @user, url: attendance_log_user_path(@user), local: true, method: :get) do |f| %>
+    <% @attendances.each do |att| %>
+    <% end %>
+  <% end %>
+</div>
+<div>
+  <table class="table table-bordered table-striped table-status">
+    <thead>
+      <tr>
+        <th>日付</th>
+        <th>変更前出社時間</th>
+        <th>変更前退社時間</th>
+        <th>変更後出社時間</th>
+        <th>変更後退社時間</th>
+        <th>指示者</th>
+        <th>承認日</th>
+      </tr>
+    </thead>
+    <% if current_user == @user %>
+      <% @attendances.each do |att| %>
+        <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      <% end %>
+    <% end %>
+  </table>
+</div>

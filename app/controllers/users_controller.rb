@@ -23,10 +23,19 @@ class UsersController < ApplicationController
     redirect_to action: 'index'
   end
   
+  # 出勤中社員一覧
   def working_members
     @users = User.includes(:attendances).references(:attendances).
       where('attendances.started_at IS NOT NULL').
       where('attendances.finished_at IS NULL')
+  end
+  
+  # 勤怠ログ
+  def attendance_log
+    @user = User.find(params[:id])
+    @first_day = Date.today.to_date.beginning_of_month
+    @last_day = @first_day.end_of_month
+    @attendances = Attendance.where(edit_status: "承認", worked_on: @first_day..@last_day).order(worked_on: "ASC")
   end
   
   def show
