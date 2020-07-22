@@ -3,10 +3,11 @@
 <h1>勤怠ログ</h1>
 
 <div>
-  <%= form_with(model: @user, url: attendance_log_user_path(@user), local: true, method: :get) do |f| %>
-    <% @attendances.each do |att| %>
-    <% end %>
-  <% end %>
+  <%= form_with(url: attendance_log_user_path(@user), local: true, method: :get) do |f| %>
+    <%= submit_tag '検索' %><br>
+    <%= f.date_select :select_year, {:discard_month => true}, class: "form_select" %><br>
+    <%= f.date_select :select_month, {:discard_day => true, :discard_year => true, :use_month_numbers => true}, class: "form_select" %>
+ <% end %>
 </div>
 <div>
   <table class="table table-bordered table-striped table-status">

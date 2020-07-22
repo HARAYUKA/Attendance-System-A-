@@ -33,7 +33,14 @@ class UsersController < ApplicationController
   # 勤怠ログ
   def attendance_log
     @user = User.find(params[:id])
-    @first_day = Date.today.to_date.beginning_of_month
+    if params["select_year(1i)"].present? && params["select_month(2i)"].present? && params["select_month(3i)"].present?
+      select_day = params["select_year(1i)"] + "-" +
+        format("%02d", params["select_month(2i)"]) + "-" +
+        format("%02d", params["select_month(3i)"])
+      @first_day = select_day.to_date.beginning_of_month
+    else
+      @first_day = Date.today.to_date.beginning_of_month
+    end
     @last_day = @first_day.end_of_month
     @attendances = @user.attendances.where(edit_status: "承認", worked_on: @first_day..@last_day).order(worked_on: "ASC")
   end
