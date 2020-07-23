@@ -34,10 +34,10 @@ class UsersController < ApplicationController
   def attendance_log
     @user = User.find(params[:id])
     if params["select_year(1i)"].present? && params["select_month(2i)"].present? && params["select_month(3i)"].present?
-      select_day = params["select_year(1i)"] + "-" +
+      search_day = params["select_year(1i)"] + "-" +
         format("%02d", params["select_month(2i)"]) + "-" +
         format("%02d", params["select_month(3i)"])
-      @first_day = select_day.to_date.beginning_of_month
+      @first_day = search_day.to_date.beginning_of_month
     else
       @first_day = Date.today.to_date.beginning_of_month
     end
@@ -52,6 +52,15 @@ class UsersController < ApplicationController
     @attendance_notices = Attendance.where(edit_status: "申請中", edit_superior_confirmation: @user.name).count
     @monthly_notices = Attendance.where(monthly_status: "申請中", monthly_superior_confirmation: @user.name).count
     @monthly_attendance = @user.attendances.find_by(worked_on: @first_day)
+    
+    respond_to do |format|
+      format.html do
+          #html用の処理を書く
+      end
+      format.csv do
+        send_data render_to_string, filename: "勤怠情報.csv", type: :csv
+      end
+    end
   end
   
   def new
