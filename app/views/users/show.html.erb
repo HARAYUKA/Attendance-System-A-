@@ -26,27 +26,29 @@
 </div>
 
 <!--申請お知らせテーブル-->
-<div>
-  <% if @monthly_notices != 0 %>
-    <%= link_to "【所属長承認申請のお知らせ】",edit_monthly_user_attendances_path(@user), remote: true, class: "btn" %>
-    <b><%= @monthly_notices %>件の申請があります</b>
-  <% else %>
-    【所属長承認申請のお知らせ】
-  <% end %><br>
-  <% if @attendance_notices != 0 %>
-    <%= link_to "【勤怠変更申請のお知らせ】", change_att_request_user_attendances_path(@user), remote: true, class: "btn" %>
-    <b><%= @attendance_notices %>件の申請があります</b>
-  <% else %>
-    【勤怠変更申請のお知らせ】
-  <% end %><br>
-  <% if @overwork_notices != 0 %>
-    <%= link_to "【残業申請のお知らせ】", edit_notice_overwork_user_attendances_path(@user), remote: true, class: "btn" %>
-    <b><%= @overwork_notices %>件の申請があります</b>
-  <% else %>
-    【残業申請のお知らせ】
-  <% end %>
-</div>
-<p></p>
+<% if current_user.superior? %>
+  <div>
+    <% if @monthly_notices != 0 %>
+      <%= link_to "【所属長承認申請のお知らせ】",edit_monthly_user_attendances_path(@user), remote: true, class: "btn" %>
+      <b><%= @monthly_notices %>件の申請があります</b>
+    <% else %>
+      【所属長承認申請のお知らせ】
+    <% end %><br>
+    <% if @attendance_notices != 0 %>
+      <%= link_to "【勤怠変更申請のお知らせ】", change_att_request_user_attendances_path(@user), remote: true, class: "btn" %>
+      <b><%= @attendance_notices %>件の申請があります</b>
+    <% else %>
+      【勤怠変更申請のお知らせ】
+    <% end %><br>
+    <% if @overwork_notices != 0 %>
+      <%= link_to "【残業申請のお知らせ】", edit_notice_overwork_user_attendances_path(@user), remote: true, class: "btn" %>
+      <b><%= @overwork_notices %>件の申請があります</b>
+    <% else %>
+      【残業申請のお知らせ】
+    <% end %>
+  </div>
+  <p></p>
+<% end %>
 
 <!--新規ボタン３つ-->
 <div class="btn-users-show">
@@ -129,19 +131,19 @@
           <td><%= day.work_details %></td>
           <td>
             <% if day.overwork_request_status == "申請中" %>
-              <%= day.overwork_superior_confirmation %>へ<%= day.overwork_request_status %><%= "　" %>
+              <%= day.overwork_superior_confirmation %>へ残業<%= day.overwork_request_status %><%= "　" %>
             <% elsif day.overwork_request_status == "承認" %>
               残業承認済<%= "　" %>
             <% elsif day.overwork_request_status == "否認"%>
-              残業否認<%= "　" %>
+              残業否認済<%= "　" %>
             <% end %>
 
             <% if day.edit_status == "申請中" %>
-              <%= day.edit_superior_confirmation %>へ<%= day.edit_status %>
+              <%= day.edit_superior_confirmation %>へ勤怠変更<%= day.edit_status %>
             <% elsif day.edit_status == "承認" %>
               勤怠変更承認済
             <% elsif day.edit_status == "否認" %>
-              勤怠変更否認         
+              勤怠変更否認済       
             <% end %>
           </td>
         </tr>

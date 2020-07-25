@@ -85,6 +85,16 @@ class AttendancesController < ApplicationController
           elsif item[:edit_status] == "否認"
             item[:change] = "0"
             attendance.update_attributes!(item)
+          elsif item[:edit_status] == "なし"
+            item[:edit_status] = nil
+            item[:change] = nil
+            item[:approval_date] = nil
+            attendance.started_at = nil
+            attendance.finished_at = nil
+            attendance.edit_started_at = nil
+            attendance.edit_finished_at = nil
+            attendance.note = nil
+            attendance.update_attributes!(item)
           end
         end
       end
@@ -133,6 +143,12 @@ class AttendancesController < ApplicationController
             item[:change] = "0"
             attendance.update_attributes!(item)
             flash[:success] = "変更を送信しました。"
+          elsif item[:overwork_request_status] == "なし"
+            item[:overwork_request_status] = nil
+            item[:change] = nil
+            attendance.scheduled_end_time = nil
+            attendance.work_details = nil
+            attendance.update_attributes!(item)
           end
         end
       end
@@ -143,13 +159,13 @@ class AttendancesController < ApplicationController
     redirect_to @user and return
   end
   
-  # 1ヶ月の勤怠申請モーダル表示
+  # 所属長承認申請モーダル表示
   def edit_monthly
     @user = User.find(params[:user_id])
-    @attendances = Attendance.where(monthly_superior_confirmation: @user.name).order(user_id: "ASC", worked_on: "ASC").group_by(&:user_id)
+    @attendances = Attendance.where(monthly_status: "申請中", monthly_superior_confirmation: @user.name).order(user_id: "ASC", worked_on: "ASC").group_by(&:user_id)
   end
 
-  # 1ヶ月の勤怠申請モーダル更新
+  # 所属長承認申請モーダル更新
   def update_monthly
     @user = User.find(params[:user_id])
     ActiveRecord::Base.transaction do
@@ -164,6 +180,11 @@ class AttendancesController < ApplicationController
             item[:change] = "0"
             attendance.update_attributes!(item)
             flash[:danger] = "申請を否認しました。"
+          elsif item[:monthly_status] == "なし"
+            item[:monthly_status] = nil
+            item[:change] = nil
+            # attendance.monthly_superior_confirmation = nil
+            attendance.update_attributes!(item)
           end
         end
       end
