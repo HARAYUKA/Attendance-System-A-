@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     end
     collection do
       get 'working_members' # 出勤中社員一覧
+      get 'system_page' # 管理者の基本情報修正ページ
     end
     resources :attendances, only: :update do
       member do

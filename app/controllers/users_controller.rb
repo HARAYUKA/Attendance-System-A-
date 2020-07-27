@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
   before_action :correct_user, only: [:edit, :update]
-  before_action :not_admin_user, only: [:index, :destroy, :edit_basic_info, :update_basic_info, :working_members, :bases]
+  before_action :not_admin_user, only: [:index, :destroy, :edit_basic_info, :update_basic_info, :working_members, :bases, :system_page]
   before_action :admin_user, only: :show
   before_action :admin_or_correct_user, only: [:show, :edit, :update]
   before_action :set_one_month, only: :show
@@ -46,6 +46,11 @@ class UsersController < ApplicationController
     @attendances = @user.attendances.where(edit_status: "承認", worked_on: @first_day..@last_day).order(worked_on: "ASC")
   end
   
+  # システムページ（管理者のみ）
+  def system_page
+  end
+  
+  # 勤怠ページ
   def show
     @worked_sum = @attendances.where.not(started_at: nil).count
     @superiors = User.where(superior: true).where.not(id: @user.id)
