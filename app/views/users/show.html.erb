@@ -31,7 +31,7 @@
     <% if @monthly_notices != 0 %>
       <div style="color: #ff0000">
         <%= link_to "【所属長承認申請のお知らせ】",edit_monthly_user_attendances_path(@user), remote: true %>
-        <b style="padding: 2px; margin-bottom: 1px; border: 3px solid #ff0000;"><%= @monthly_notices %>件の申請があります</b>
+        <b style="margin-bottom: 1px; border: 3px solid #ff0000;"><%= @monthly_notices %>件の申請があります</b>
       </div>
     <% else %>
       【所属長承認申請のお知らせ】
@@ -39,7 +39,7 @@
     <% if @attendance_notices != 0 %>
       <div style="color: #ff0000">
         <%= link_to "【勤怠変更申請のお知らせ】", change_att_request_user_attendances_path(@user), remote: true %>
-        <b style="padding: 2px; margin-bottom: 1px; border: 3px solid #ff0000;"><%= @attendance_notices %>件の申請があります</b>
+        <b style="margin-bottom: 1px; border: 3px solid #ff0000;"><%= @attendance_notices %>件の申請があります</b>
       </div>
     <% else %>
       【勤怠変更申請のお知らせ】
@@ -47,7 +47,7 @@
     <% if @overwork_notices != 0 %>
       <div style="color: #ff0000">
         <%= link_to "【残業申請のお知らせ】", edit_notice_overwork_user_attendances_path(@user), remote: true %>
-        <b style="padding: 2px; margin-bottom: 1px; border: 3px solid #ff0000;"><%= @overwork_notices %>件の申請があります</b>
+        <b style="margin-bottom: 1px; border: 3px solid #ff0000;"><%= @overwork_notices %>件の申請があります</b>
       </div>
     <% else %>
       【残業申請のお知らせ】
@@ -126,7 +126,7 @@
           </td>
           <td>
             <% if day.started_at.present? && day.finished_at.present? %>
-              <%= str_times = working_times(day.started_at.floor_to(15.minutes), day.finished_at.floor_to(15.minutes)) %>
+              <%= str_times = working_times(day.started_at.floor_to(15.minutes), day.finished_at.floor_to(15.minutes), day.next_day) %>
               <% @total_working_times = @total_working_times.to_f + str_times.to_f %>
             <% end %>
           </td>

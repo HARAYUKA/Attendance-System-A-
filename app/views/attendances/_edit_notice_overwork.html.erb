@@ -35,7 +35,7 @@
                     <td><%= format_basic_info(user.designated_work_end_time) %></td>
                     <td>
                       <% if notice.scheduled_end_time.present? %>
-                        <%= overtime_info(notice.scheduled_end_time, user.designated_work_end_time, notice.next_day) %>
+                        <%= overtime_info(notice.scheduled_end_time, user.designated_work_end_time, notice.k_next_day) %>
                       <% end %>
                     </td>
                     <td><%= notice.try(:work_details) %></td>

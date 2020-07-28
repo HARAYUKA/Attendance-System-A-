@@ -39,6 +39,9 @@ class AttendancesController < ApplicationController
           if item[:edit_started_at].blank? || item[:edit_finished_at].blank? || item[:note].blank?
             flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
             redirect_to user_url(date: params[:date]) and return
+          elsif (item[:edit_started_at] > item[:edit_finished_at]) && (item[:next_day] == "0")
+            flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
+            redirect_to attendances_edit_one_month_user_url and return
           else
             item[:edit_status] = "申請中"
             attendance = Attendance.find(id)
@@ -94,6 +97,8 @@ class AttendancesController < ApplicationController
             attendance.edit_started_at = nil
             attendance.edit_finished_at = nil
             attendance.note = nil
+            attendance.next_day = false
+            attendance.edit_superior_confirmation = nil
             attendance.update_attributes!(item)
           end
         end
@@ -183,7 +188,7 @@ class AttendancesController < ApplicationController
           elsif item[:monthly_status] == "なし"
             item[:monthly_status] = nil
             item[:change] = nil
-            # attendance.monthly_superior_confirmation = nil
+            attendance.monthly_superior_confirmation = nil
             attendance.update_attributes!(item)
           end
         end
@@ -198,7 +203,7 @@ class AttendancesController < ApplicationController
   private
     # 1ヶ月分の勤怠情報を扱います。
     def attendances_params
-      params.require(:user).permit(attendances: [:edit_started_at, :edit_finished_at, :note, :edit_superior_confirmation])[:attendances]
+      params.require(:user).permit(attendances: [:edit_started_at, :edit_finished_at, :note, :edit_superior_confirmation, :next_day])[:attendances]
     end
     
     # 残業申請の更新情報
