@@ -208,7 +208,7 @@ class AttendancesController < ApplicationController
     
     # 残業申請の更新情報
     def overwork_params
-      params.require(:attendance).permit(:scheduled_end_time, :next_day, :work_details, :overwork_superior_confirmation)
+      params.require(:attendance).permit(:scheduled_end_time, :overwork_next_day, :work_details, :overwork_superior_confirmation)
     end
     
     # 残業申請お知らせの更新情報

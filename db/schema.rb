@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20200718131419) do
     t.string "note"
     t.integer "user_id"
     t.datetime "scheduled_end_time"
-    t.boolean "next_day"
+    t.boolean "overwork_next_day"
     t.string "work_details"
     t.string "overwork_request_status"
     t.string "overwork_superior_confirmation"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20200718131419) do
     t.datetime "edit_finished_at"
     t.datetime "before_started_at"
     t.datetime "before_finished_at"
+    t.boolean "next_day"
     t.string "edit_status"
     t.string "edit_superior_confirmation"
     t.date "approval_date"
@@ -57,9 +58,9 @@ ActiveRecord::Schema.define(version: 20200718131419) do
     t.string "remember_digest"
     t.boolean "admin", default: false
     t.string "affiliation"
-    t.datetime "basic_work_time", default: "2020-07-26 23:00:00"
-    t.datetime "designated_work_start_time", default: "2020-07-27 00:00:00"
-    t.datetime "designated_work_end_time", default: "2020-07-27 09:00:00"
+    t.datetime "basic_work_time", default: "2020-07-27 23:00:00"
+    t.datetime "designated_work_start_time", default: "2020-07-28 00:00:00"
+    t.datetime "designated_work_end_time", default: "2020-07-28 09:00:00"
     t.boolean "superior", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end

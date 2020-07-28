@@ -29,8 +29,8 @@ module AttendancesHelper
   end
   
   # 時間外時間の計算
-  def overtime_info(scheduled_end_time, designated_work_end_time, next_day)
-    if next_day == true
+  def overtime_info(scheduled_end_time, designated_work_end_time, overwork_next_day)
+    if overwork_next_day == true
       format("%.2f", ((((scheduled_end_time.hour - designated_work_end_time.hour) * 60 + (scheduled_end_time.min - designated_work_end_time.min)) / 60.0) + 24))
     else
       format("%.2f", ((((scheduled_end_time.hour - designated_work_end_time.hour) * 60 + (scheduled_end_time.min - designated_work_end_time.min)) / 60.0)))
