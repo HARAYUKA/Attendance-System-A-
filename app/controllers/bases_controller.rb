@@ -14,10 +14,11 @@ class BasesController < ApplicationController
   def update
     if @base.update_attributes(base_params)
       flash[:success] = "拠点の更新に成功しました。"
-      redirect_to bases_url
-    else
-      render :bases
-    end 
+      redirect_to bases_url and return
+    elsif  params[:base_number].blank? || params[:base_name].blank?
+      flash[:danger] = "拠点番号・拠点名を入力して下さい。"
+      redirect_to edit_basis_url and return
+    end
   end
   
   def create

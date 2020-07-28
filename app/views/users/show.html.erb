@@ -29,25 +29,31 @@
 <% if current_user.superior? %>
   <div>
     <% if @monthly_notices != 0 %>
-      <%= link_to "【所属長承認申請のお知らせ】",edit_monthly_user_attendances_path(@user), remote: true, class: "btn" %>
-      <b><%= @monthly_notices %>件の申請があります</b>
+      <div style="color: #ff0000">
+        <%= link_to "【所属長承認申請のお知らせ】",edit_monthly_user_attendances_path(@user), remote: true %>
+        <b style="padding: 2px; margin-bottom: 1px; border: 3px solid #ff0000;"><%= @monthly_notices %>件の申請があります</b>
+      </div>
     <% else %>
       【所属長承認申請のお知らせ】
     <% end %><br>
     <% if @attendance_notices != 0 %>
-      <%= link_to "【勤怠変更申請のお知らせ】", change_att_request_user_attendances_path(@user), remote: true, class: "btn" %>
-      <b><%= @attendance_notices %>件の申請があります</b>
+      <div style="color: #ff0000">
+        <%= link_to "【勤怠変更申請のお知らせ】", change_att_request_user_attendances_path(@user), remote: true %>
+        <b style="padding: 2px; margin-bottom: 1px; border: 3px solid #ff0000;"><%= @attendance_notices %>件の申請があります</b>
+      </div>
     <% else %>
       【勤怠変更申請のお知らせ】
     <% end %><br>
     <% if @overwork_notices != 0 %>
-      <%= link_to "【残業申請のお知らせ】", edit_notice_overwork_user_attendances_path(@user), remote: true, class: "btn" %>
-      <b><%= @overwork_notices %>件の申請があります</b>
+      <div style="color: #ff0000">
+        <%= link_to "【残業申請のお知らせ】", edit_notice_overwork_user_attendances_path(@user), remote: true %>
+        <b style="padding: 2px; margin-bottom: 1px; border: 3px solid #ff0000;"><%= @overwork_notices %>件の申請があります</b>
+      </div>
     <% else %>
       【残業申請のお知らせ】
     <% end %>
   </div>
-  <p></p>
+  <p></p><br>
 <% end %>
 
 <!--新規ボタン３つ-->

@@ -15,7 +15,7 @@
         <%= f.text_field :base_name, class: "form-control", placeholder: "拠点名を記入してください" %>
 
         <%= f.label :base_type, class: "label-#{yield(:class_text)}" %></br>
-        <%= f.select :base_type, [["選択してください"],["出勤"],["退勤"]] %>
+        <%= f.select :base_type, [["出勤"],["退勤"]] %>
       </td>
     </tr>
   </table>
